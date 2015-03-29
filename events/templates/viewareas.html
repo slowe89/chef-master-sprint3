@@ -1,15 +1,15 @@
 <%doc>
 	Author: John Turner
 	Version: 1.0
-	Updated: 2/4/15
+	Updated: 2/5/15
 
-	This is the page through which administrators can view all events in the system. 
+	This is the page through which administrators can view all areas for a given event in the system. 
 </%doc>
 
 <%inherit file="/base_admin/templates/base.htm" />
 
 <%block name="tab_title">
-  Scheduled Events
+  Areas for ${ event.name }
 </%block>
 
 <%block name="paper_elements_import">
@@ -30,18 +30,13 @@
 			
 			## PAGE TITLE ##
 			<div class="col-md-8">
-				<h1>Scheduled Events</h1>
+				<h1>Areas for ${ event.name }</h1>
 			</div>
 			## END PAGE TITLE ##
+
 		</div>
 	</%block>
 	## END PAGE TITLE ##
-
-	## ROW ##
-	<div class="row">
-
-	</div>
-	## END ROW ##
 
 	## SEPARATOR ##
 	<hr>
@@ -58,10 +53,7 @@
 					Name
 				</th>
 				<th>
-					Start Date
-				</th>
-				<th>
-					Venue
+					Place Number
 				</th>
 				<th>
 					Actions
@@ -69,26 +61,26 @@
 			</tr>
 		</thead>
 		<tbody>
-			%for event in events:
+			%for area in areas:
 				<tr>
 					<td>
 						<paper-checkbox></paper-checkbox>
 					</td>
 					<td>
-						${ event.name }
+						${ area.name }
 					</td>
 					<td>
-						${ event.start_date.strftime("%B %d, %Y") }
+						${ area.place_number }
 					</td>
 					<td>
-						${ event.venue.name }
-					</td>
-					<td>
-						<a class="button" href="/events/areas.view/${ event.id }">
-							<paper-button raised class="success_button">Areas</paper-button>
+						<a class="button" href="/events/events.edit/${ event.id }">
+							<paper-button raised class="success_button">Event Info</paper-button>
 						</a>
-						<a class="button" href="/events/venues.edit/${ event.venue.id }">
-							<paper-button raised class="success_button">Venue Info</paper-button>
+						<a class="button" href="/events/areas.edit/${ event.id }/${ area.id }">
+							<paper-button raised class="edit_button">Edit</paper-button>
+						</a>
+						<a class="button" href="/events/areas.delete/${ event.id }/${ area.id }">
+							<paper-button raised class="delete_button">Delete</paper-button>
 						</a>
 					</td>
 				</tr>

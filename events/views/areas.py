@@ -47,7 +47,7 @@ class EditAreaForm(CustomForm):
 		# Grab the event from database
 		try:
 			event = hmod.Event.objects.get(id=self.request.urlparams[0])
-		except Event.DoesNotExist:
+		except hmod.Event.DoesNotExist:
 			return HttpResponseRedirect('/events/events/')
 
 		# Get a list of the areas for a given event
@@ -87,7 +87,7 @@ def process_request(request):
 	# Grab event to pass in
 	try:
 		event = hmod.Event.objects.get(id=request.urlparams[0])
-	except Event.DoesNotExist:
+	except hmod.Event.DoesNotExist:
 		return HttpResponseRedirect('/events/events')
 
 	params['event'] = event
@@ -166,7 +166,7 @@ def create(request):
 	# Grab event to tie to area
 	try:
 		event = hmod.Event.objects.get(id=request.urlparams[0])
-	except Event.DoesNotExist:
+	except hmod.Event.DoesNotExist:
 		return HttpResponseRedirect('events/areas/{0}'.format(request.urlparams[0]))
 
 	area = hmod.Area()
@@ -193,9 +193,35 @@ def delete(request):
 	# Try catch to see if the area exists	
 	try:
 		area = hmod.Area.objects.get(id=request.urlparams[1])
-	except Area.DoesNotExist:
+	except hmod.Area.DoesNotExist:
 		pass # Area exists
 
 	area.delete()
 
 	return HttpResponseRedirect('/events/areas/{0}'.format(request.urlparams[0]))
+
+##########################################################################################
+################################# GUEST VIEW AREAS #######################################
+##########################################################################################
+
+@view_function
+def view(request):
+
+	# Define the view bag
+	params = {}
+
+	# Grab all the areas from the database related to the event that you're editing
+	areas = hmod.Area.objects.filter(event_id=request.urlparams[0]).order_by('place_number')
+
+	# Grab event to pass in
+	try:
+		event = hmod.Event.objects.get(id=request.urlparams[0])
+	except hmod.Event.DoesNotExist:
+		return HttpResponseRedirect('/events/events')
+
+	params['event'] = event
+
+	# Add areas to the view bag
+	params['areas'] = areas
+
+	return templater.render_to_response(request, 'viewareas.html', params)

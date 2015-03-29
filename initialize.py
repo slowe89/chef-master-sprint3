@@ -122,6 +122,15 @@ address.ZIP = '84606'
 
 address.save()
 
+address2 = mod.Address()
+address2.address1 = '123 Lollipop Ln.'
+address2.address2 = ''
+address2.city = 'Candy Land'
+address2.state = 'UT'
+address2.ZIP = '84601'
+
+address2.save()
+
 # Add a couple of guests
 for data in [
     {'first_name':'Joseph', 'last_name':'Townson', 'email':'fake@fake.com', 'address':address, 'phone':'7134088245', 'security_question':'What is your name?', 'security_answer':'Joseph', 'username':'jobro1', },
@@ -143,6 +152,37 @@ for data in [
 #############################################################################
 ################################ DUMMY DATA #################################
 #############################################################################
+
+################################## VENUES ###################################
+
+venue = mod.Venue()
+venue.name = "The Park"
+venue.address = address2
+
+venue.save()
+
+################################## EVENTS ###################################
+
+event = mod.Event()
+event.name = "Fun Event"
+event.venue = venue
+event.start_date = "2016-01-01"
+event.end_date = "2016-01-03"
+event.event_map = "Map goes here"
+
+event.save()
+
+################################## AREAS ####################################
+
+area = mod.Area()
+area.name = "Vendors"
+area.event = event
+area.description = "This is where vendors will be located."
+area.place_number = 1
+area.coordinator = user
+area.supervisor = user
+
+area.save()
 
 ################################ INVENTORY ##################################
 
