@@ -56,7 +56,7 @@ group.save()
 permissions = Permission.objects.all()
 
 for permission in permissions:
-	group.permissions.add(permission)
+    group.permissions.add(permission)
 
 mod.User.objects.all().delete()
 
@@ -74,8 +74,12 @@ address.ZIP     = '84606'
 address.save() 
 
 user           = mod.User.objects.create_superuser( username='admin', email='test@fake.com', password='password' )
-user.first_name= 'Admin'
-user.address   = address
+user.first_name= 'Spencer'
+user.last_name= 'Lowe'
+user.phone= '7073303952'
+user.security_question= ''
+user.security_answer= ''
+user.address = address
 user.save()
 
 group.user_set.add(user)
@@ -97,10 +101,10 @@ content_types = ContentType.objects.exclude(app_label='auth').exclude(app_label=
 content_types.exclude(app_label='base_app', model='User').exclude(app_label='contenttypes').exclude(app_label='sessions')
 
 for content_type in content_types:
-	permissions = Permission.objects.filter(content_type=content_type)
+    permissions = Permission.objects.filter(content_type=content_type)
 
-	for permission in permissions:
-		group.permissions.add(permission)
+    for permission in permissions:
+        group.permissions.add(permission)
 
 ################################## GUESTS ####################################
 
@@ -120,19 +124,21 @@ address.save()
 
 # Add a couple of guests
 for data in [
-	{'first_name':'Joseph', 'last_name':'Townson', 'email':'fake@fake.com', 'address':address, 'phone':'7134088245', 'security_question':'What is your name?', 'security_answer':'Joseph', 'username':'jobro1', },
-	{'first_name':'Sarah', 'last_name':'Townson', 'email':'fake@fake.com', 'address':address, 'phone':'7134088245', 'security_question':'What is your name?', 'security_answer':'Joseph', 'username':'sarahbro1', }
+    {'first_name':'Joseph', 'last_name':'Townson', 'email':'fake@fake.com', 'address':address, 'phone':'7134088245', 'security_question':'What is your name?', 'security_answer':'Joseph', 'username':'jobro1', },
+    {'first_name':'Sarah', 'last_name':'Townson', 'email':'fake@fake.com', 'address':address, 'phone':'7134088245', 'security_question':'What is your name?', 'security_answer':'Joseph', 'username':'sarahbro1', }
 ]:
 
-	user = mod.User()
+    user = mod.User()
 
-	for key in data:
+    for key in data:
 
-		setattr(user, key, data[key])
+        setattr(user, key, data[key])
 
-	user.set_password('password')
+    user.set_password('password')
 
-	user.save()
+    user.save()
+
+    group.user_set.add(user)
 
 #############################################################################
 ################################ DUMMY DATA #################################
@@ -142,7 +148,7 @@ for data in [
 
 # Bulk product - musket balls
 photo              = mod.Photograph()
-photo.place_taken  = "Colonial Heritage Fsetival"
+photo.place_taken  = "Colonial Heritage Festival"
 photo.image        = "products/media/product_images/musket_balls.jpg"
 photo.description  = "Musket balls for sale!"
 photo.photographer = user
@@ -364,32 +370,32 @@ wardrobe_item.save()
 
 for data in [
 
-	{'customer': user}
+    {'customer': user}
 
 ]:
 
-	transaction = mod.Transaction()
+    transaction = mod.Transaction()
 
-	for key in data:
+    for key in data:
 
-		setattr(transaction, key, data[key])
+        setattr(transaction, key, data[key])
 
-	transaction.save()
+    transaction.save()
 
 ################################# RENTAL #####################################
 
 for data in [
 
-	{'date_out':'2000-01-01 00:00:00', 'due_date': '2001-01-01', 'date_in':'2002-01-01 00:00:00', 'item':item, 'transaction':transaction, 'amount':20.00},
-	{'date_out':'2014-12-01 00:00:00', 'due_date': '2015-12-01', 'item':rental_item, 'transaction':transaction, 'amount':20.00},
-	{'date_out':'2014-01-01 00:00:00', 'due_date': '2015-01-01', 'item':wardrobe_item, 'transaction':transaction, 'amount':20.00}
+    {'date_out':'2000-01-01 00:00:00', 'due_date': '2001-01-01', 'date_in':'2002-01-01 00:00:00', 'item':item, 'transaction':transaction, 'amount':20.00},
+    {'date_out':'2014-12-01 00:00:00', 'due_date': '2015-12-01', 'item':rental_item, 'transaction':transaction, 'amount':20.00},
+    {'date_out':'2014-01-01 00:00:00', 'due_date': '2015-01-01', 'item':wardrobe_item, 'transaction':transaction, 'amount':20.00}
 
 ]:
 
-	rental = mod.RentalItem()
+    rental = mod.RentalItem()
 
-	for key in data:
+    for key in data:
 
-		setattr(rental, key, data[key])
+        setattr(rental, key, data[key])
 
-	rental.save()
+    rental.save()

@@ -1,0 +1,112 @@
+<%doc>
+	Author: John Turner
+	Version: 1.0
+	Updated: 2/4/15
+
+	This is the page through which administrators can view all events in the system. 
+</%doc>
+
+<%inherit file="/base_admin/templates/base.htm" />
+
+<%block name="tab_title">
+  Scheduled Events
+</%block>
+
+<%block name="paper_elements_import">
+	<link rel="import" href="${ STATIC_URL }base_app/styles/bower_components/paper-input/paper-input.html">
+	<link rel="import" href="${ STATIC_URL }base_app/styles/bower_components/paper-button/paper-button.html">
+	<link rel="import" href="${ STATIC_URL }base_app/styles/bower_components/paper-checkbox/paper-checkbox.html">
+</%block>
+
+<%block name="extra_links">
+	<link rel="stylesheet" type="text/css" href="${ STATIC_URL }base_admin/styles/View.css">
+</%block>
+
+<%block name="content">
+	
+	## PAGE TITLE ##
+	<%block name="page_title">
+		<div class="row">
+			
+			## PAGE TITLE ##
+			<div class="col-md-8">
+				<h1>Scheduled Events</h1>
+			</div>
+			## END PAGE TITLE ##
+		</div>
+	</%block>
+	## END PAGE TITLE ##
+
+	## ROW ##
+	<div class="row">
+
+	</div>
+	## END ROW ##
+
+	## SEPARATOR ##
+	<hr>
+	## END SEPARATOR ##
+
+	## TABLE OF USERS ##
+	<table class="table table-hover table-bordered">
+		<thead>
+			<tr>
+				<th>
+					<paper-button raised class="">Select All</paper-button>
+				</th>
+				<th>
+					Name
+				</th>
+				<th>
+					Start Date
+				</th>
+				<th>
+					Venue
+				</th>
+				<th>
+					Actions
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			%for event in events:
+				<tr>
+					<td>
+						<paper-checkbox></paper-checkbox>
+					</td>
+					<td>
+						${ event.name }
+					</td>
+					<td>
+						${ event.start_date.strftime("%B %d, %Y") }
+					</td>
+					<td>
+						${ event.venue.name }
+					</td>
+					<td>
+						<a class="button" href="/events/areas/${ event.id }">
+							<paper-button raised class="success_button">Areas</paper-button>
+						</a>
+						<a class="button" href="/events/venues.edit/${ event.venue.id }">
+							<paper-button raised class="success_button">Venue Info</paper-button>
+						</a>
+						<a class="button" href="/events/events.edit/${ event.id }">
+							<paper-button raised class="edit_button">Edit</paper-button>
+						</a>
+						<a class="button" href="/events/events.delete/${ event.id }">
+							<paper-button raised class="delete_button">Delete</paper-button>
+						</a>
+					</td>
+				</tr>
+			%endfor
+		</tbody>
+	</table>	
+	## END TABLE OF USERS ##
+
+	## SPACER DIVS ##
+	<div class="spacer"></div>
+	<div class="spacer"></div>
+	<div class="spacer"></div>
+	## END SPACER DIVS ##
+
+</%block>
