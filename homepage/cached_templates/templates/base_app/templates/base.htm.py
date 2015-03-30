@@ -4,13 +4,13 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1426958342.513484
+_modified_time = 1427674054.756586
 _enable_loop = True
-_template_filename = '/Users/John/DevProjects/Repositories/chef/base_app/templates/base.htm'
+_template_filename = '/Users/spencerlowe/PycharmProjects/chef-master/base_app/templates/base.htm'
 _template_uri = '/base_app/templates/base.htm'
 _source_encoding = 'ascii'
 import os, os.path, re
-_exports = ['full_width_content', 'sidebar', 'tab_title', 'extra_links', 'navbar_links', 'paper_elements_import', 'content', 'page_title', 'footer_links']
+_exports = ['sidebar', 'extra_links', 'content', 'navbar_links', 'paper_elements_import', 'footer_links', 'tab_title', 'page_title', 'full_width_content']
 
 
 from django_mako_plus.controller import static_files 
@@ -19,28 +19,28 @@ def render_body(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
         __M_locals = __M_dict_builtin(pageargs=pageargs)
-        self = context.get('self', UNDEFINED)
+        def sidebar():
+            return render_sidebar(context._locals(__M_locals))
         def full_width_content():
             return render_full_width_content(context._locals(__M_locals))
+        def content():
+            return render_content(context._locals(__M_locals))
         def tab_title():
             return render_tab_title(context._locals(__M_locals))
+        def paper_elements_import():
+            return render_paper_elements_import(context._locals(__M_locals))
+        def footer_links():
+            return render_footer_links(context._locals(__M_locals))
+        self = context.get('self', UNDEFINED)
+        perms = context.get('perms', UNDEFINED)
         def extra_links():
             return render_extra_links(context._locals(__M_locals))
+        def navbar_links():
+            return render_navbar_links(context._locals(__M_locals))
         def page_title():
             return render_page_title(context._locals(__M_locals))
         STATIC_URL = context.get('STATIC_URL', UNDEFINED)
-        def content():
-            return render_content(context._locals(__M_locals))
-        def footer_links():
-            return render_footer_links(context._locals(__M_locals))
-        perms = context.get('perms', UNDEFINED)
-        def sidebar():
-            return render_sidebar(context._locals(__M_locals))
         request = context.get('request', UNDEFINED)
-        def navbar_links():
-            return render_navbar_links(context._locals(__M_locals))
-        def paper_elements_import():
-            return render_paper_elements_import(context._locals(__M_locals))
         __M_writer = context.writer()
         __M_writer('\n\n')
         __M_writer('\n')
@@ -129,47 +129,6 @@ def render_body(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
-def render_full_width_content(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        def full_width_content():
-            return render_full_width_content(context)
-        def content():
-            return render_content(context)
-        def sidebar():
-            return render_sidebar(context)
-        def page_title():
-            return render_page_title(context)
-        __M_writer = context.writer()
-        __M_writer('\n\n')
-        __M_writer('        <div class="wrapper">\n\n')
-        __M_writer('        <div class="page_title">\n          ')
-        if 'parent' not in context._data or not hasattr(context._data['parent'], 'page_title'):
-            context['self'].page_title(**pageargs)
-        
-
-        __M_writer('\n        </div>\n')
-        __M_writer('\n')
-        __M_writer('        ')
-        if 'parent' not in context._data or not hasattr(context._data['parent'], 'sidebar'):
-            context['self'].sidebar(**pageargs)
-        
-
-        __M_writer('\n')
-        __M_writer('\n')
-        __M_writer('          ')
-        if 'parent' not in context._data or not hasattr(context._data['parent'], 'content'):
-            context['self'].content(**pageargs)
-        
-
-        __M_writer('\n')
-        __M_writer('\n        </div>\n')
-        __M_writer('\n      ')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
 def render_sidebar(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
@@ -177,18 +136,6 @@ def render_sidebar(context,**pageargs):
             return render_sidebar(context)
         __M_writer = context.writer()
         __M_writer('\n\n        ')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
-def render_tab_title(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        def tab_title():
-            return render_tab_title(context)
-        __M_writer = context.writer()
-        __M_writer('\n        Colonial Heritage Foundation\n      ')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -206,6 +153,18 @@ def render_extra_links(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
+def render_content(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        def content():
+            return render_content(context)
+        __M_writer = context.writer()
+        __M_writer('\n             If you are seeing this, something went wrong...\n          ')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
 def render_navbar_links(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
@@ -216,9 +175,9 @@ def render_navbar_links(context,**pageargs):
         __M_writer = context.writer()
         __M_writer('\n              <ul class="nav navbar-nav navbar-right">\n')
         if request.user.username == '':
-            __M_writer('                  <li><a href="/homepage/index/">Home</a></li>\n                  <li><a href="/homepage/about/">About</a></li>\n                  <li><a href="/homepage/terms/">Terms</a></li>\n                  <li><a href="/homepage/contact/">Contact</a></li>\n                  <li><a href="/products/products/">Products</a></li>\n                  <li><a href="/account/NewUser/">Sign Up</a></li>\n                  <li><a id="login_link" href="#">Login</a></li>\n')
+            __M_writer('                  <li><a href="/homepage/index/">Home</a></li>\n                  <li><a href="/homepage/about/">About</a></li>\n                  <li><a href="/events/events.view/">Events</a></li>\n                  <li><a href="/products/products/">Products</a></li>\n                  <li><a href="/account/NewUser/">Sign Up</a></li>\n                  <li><a id="login_link" href="#">Login</a></li>\n')
         else:
-            __M_writer('                  <li class="dropdown">\n                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Home</a>\n                    <ul class="dropdown-menu dropdown-menu-left" role="menu">\n                      <li><a href="/homepage/index/">Home Page</a></li>\n                      <li><a href="/homepage/about/">About</a></li>\n                      <li><a href="/homepage/terms/">Terms</a></li>\n                      <li><a href="/homepage/contact/">Contact</a></li>\n                    </ul>\n                  </li>\n                  <li><a href="/products/products/">Products</a></li>\n                  <li><a href="/rentals/rentals/">Rentals</a></li>\n')
+            __M_writer('                  <li class="dropdown">\n                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Home</a>\n                    <ul class="dropdown-menu dropdown-menu-left" role="menu">\n                      <li><a href="/homepage/index/">Home Page</a></li>\n                      <li><a href="/homepage/about/">About</a></li>\n                      <li><a href="/homepage/contact/">Contact</a></li>\n                    </ul>\n                  </li>\n                  <li><a href="/products/products/">Products</a></li>\n                  <li><a href="/rentals/rentals/">Rentals</a></li>\n')
             if perms['base_app']['add_inventory'] or perms['base_app']['change_inventory'] or perms['base_app']['delete_inventory']:
                 __M_writer('                    <li class="dropdown">\n                      <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Inventory</a>\n                      <ul class="dropdown-menu dropdown-menu-left" role="menu">\n                        <li role="presentation" class="dropdown-header">Rentals</li>\n                        <li><a href="/inventory/items.create/1">Add Non-Wardrobe Item</a></li>\n                        <li><a href="/inventory/items.create/2">Add Wardrobe Item</a></li>\n                        <li><a href="/inventory/items/">View Items</a></li>\n                        <li><a href="/inventory/returns/">Process Return</a></li>\n                        <li class="divider"></li>\n                        <li role="presentation" class="dropdown-header">Products</li>\n                        <li><a href="/inventory/products/">View Products</a></li>\n                      </ul>\n                    </li>\n')
             if perms['base_app']['add_event'] or perms['base_app']['change_event'] or perms['base_app']['delete_event']:
@@ -256,30 +215,6 @@ def render_paper_elements_import(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
-def render_content(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        def content():
-            return render_content(context)
-        __M_writer = context.writer()
-        __M_writer('\n             If you are seeing this, something went wrong...\n          ')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
-def render_page_title(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        def page_title():
-            return render_page_title(context)
-        __M_writer = context.writer()
-        __M_writer('\n              \n          ')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
 def render_footer_links(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
@@ -300,8 +235,73 @@ def render_footer_links(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
+def render_tab_title(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        def tab_title():
+            return render_tab_title(context)
+        __M_writer = context.writer()
+        __M_writer('\n        Colonial Heritage Foundation\n      ')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
+def render_page_title(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        def page_title():
+            return render_page_title(context)
+        __M_writer = context.writer()
+        __M_writer('\n              \n          ')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
+def render_full_width_content(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        def sidebar():
+            return render_sidebar(context)
+        def full_width_content():
+            return render_full_width_content(context)
+        def content():
+            return render_content(context)
+        def page_title():
+            return render_page_title(context)
+        __M_writer = context.writer()
+        __M_writer('\n\n')
+        __M_writer('        <div class="wrapper">\n\n')
+        __M_writer('        <div class="page_title">\n          ')
+        if 'parent' not in context._data or not hasattr(context._data['parent'], 'page_title'):
+            context['self'].page_title(**pageargs)
+        
+
+        __M_writer('\n        </div>\n')
+        __M_writer('\n')
+        __M_writer('        ')
+        if 'parent' not in context._data or not hasattr(context._data['parent'], 'sidebar'):
+            context['self'].sidebar(**pageargs)
+        
+
+        __M_writer('\n')
+        __M_writer('\n')
+        __M_writer('          ')
+        if 'parent' not in context._data or not hasattr(context._data['parent'], 'content'):
+            context['self'].content(**pageargs)
+        
+
+        __M_writer('\n')
+        __M_writer('\n        </div>\n')
+        __M_writer('\n      ')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
 """
 __M_BEGIN_METADATA
-{"source_encoding": "ascii", "uri": "/base_app/templates/base.htm", "line_map": {"259": 209, "265": 209, "271": 196, "16": 12, "18": 0, "277": 196, "283": 228, "289": 228, "290": 231, "291": 234, "292": 244, "293": 246, "294": 256, "295": 258, "296": 268, "297": 271, "45": 10, "46": 12, "47": 13, "51": 13, "52": 21, "57": 24, "58": 27, "59": 29, "60": 32, "61": 32, "62": 32, "63": 35, "64": 35, "65": 35, "66": 38, "67": 44, "68": 47, "69": 51, "70": 55, "71": 58, "72": 58, "73": 58, "74": 61, "79": 64, "80": 67, "85": 69, "86": 72, "87": 72, "88": 72, "89": 78, "90": 82, "91": 94, "96": 175, "97": 177, "98": 180, "99": 184, "100": 186, "101": 189, "106": 217, "107": 219, "108": 222, "109": 224, "110": 227, "115": 272, "116": 275, "117": 278, "118": 290, "119": 292, "120": 294, "121": 297, "122": 300, "123": 303, "124": 305, "125": 305, "126": 305, "132": 189, "144": 189, "145": 192, "146": 195, "151": 198, "152": 201, "153": 203, "158": 205, "159": 207, "160": 209, "165": 211, "166": 213, "167": 216, "173": 203, "179": 203, "185": 22, "191": 22, "197": 67, "203": 67, "209": 94, "303": 297, "217": 94, "218": 96, "219": 97, "220": 104, "221": 105, "222": 116, "223": 117, "224": 131, "225": 132, "226": 144, "227": 145, "228": 150, "229": 151, "230": 154, "231": 157, "232": 158, "233": 165, "234": 166, "235": 166, "236": 174, "242": 61, "249": 61, "250": 62, "251": 62, "252": 63, "253": 63}, "filename": "/Users/John/DevProjects/Repositories/chef/base_app/templates/base.htm"}
+{"filename": "/Users/spencerlowe/PycharmProjects/chef-master/base_app/templates/base.htm", "line_map": {"256": 194, "262": 187, "16": 12, "18": 0, "275": 190, "276": 193, "281": 196, "282": 199, "283": 201, "288": 203, "289": 205, "290": 207, "295": 209, "296": 211, "297": 214, "274": 187, "45": 10, "46": 12, "47": 13, "51": 13, "52": 21, "57": 24, "58": 27, "59": 29, "60": 32, "61": 32, "62": 32, "63": 35, "64": 35, "65": 35, "66": 38, "67": 44, "68": 47, "69": 51, "70": 55, "71": 58, "72": 58, "73": 58, "74": 61, "79": 64, "80": 67, "85": 69, "86": 72, "87": 72, "88": 72, "89": 78, "90": 82, "91": 94, "96": 173, "97": 175, "98": 178, "99": 182, "100": 184, "101": 187, "106": 215, "107": 217, "108": 220, "109": 222, "110": 225, "115": 270, "116": 273, "117": 276, "118": 288, "119": 290, "120": 292, "121": 295, "122": 298, "123": 301, "124": 303, "125": 303, "126": 303, "132": 201, "138": 201, "144": 67, "303": 297, "150": 67, "156": 207, "162": 207, "168": 94, "176": 94, "177": 96, "178": 97, "179": 103, "180": 104, "181": 114, "182": 115, "183": 129, "184": 130, "185": 142, "186": 143, "187": 148, "188": 149, "189": 152, "190": 155, "191": 156, "192": 163, "193": 164, "194": 164, "195": 172, "201": 61, "208": 61, "209": 62, "210": 62, "211": 63, "212": 63, "218": 226, "224": 226, "225": 229, "226": 232, "227": 242, "228": 244, "229": 254, "230": 256, "231": 266, "232": 269, "238": 22, "244": 22, "250": 194}, "source_encoding": "ascii", "uri": "/base_app/templates/base.htm"}
 __M_END_METADATA
 """

@@ -163,9 +163,18 @@ venue.save()
 
 ################################## EVENTS ###################################
 
+event_template = mod.PublicEvent()
+
+event_template.name = "Fun Event"
+event_template.description = "A roudy get together for families in the community.  We will do things, participate in things, experience things, and generally have a good time.  Come one, come all to see the amount of fun you can have when you gather for no real reason."
+
+event_template.save()
+
+
 event = mod.Event()
-event.name = "Fun Event"
+
 event.venue = venue
+event.event_template = event_template
 event.start_date = "2016-01-01"
 event.end_date = "2016-01-03"
 event.event_map = "Map goes here"

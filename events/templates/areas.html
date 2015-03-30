@@ -9,7 +9,7 @@
 <%inherit file="/base_admin/templates/base.htm" />
 
 <%block name="tab_title">
-  Areas for ${ event.name }
+  Areas for ${ event.event_template.name }
 </%block>
 
 <%block name="paper_elements_import">
@@ -30,7 +30,7 @@
 			
 			## PAGE TITLE ##
 			<div class="col-md-8">
-				<h1>Areas for ${ event.name }</h1>
+				<h1>Areas for ${ event.event_template.name }</h1>
 			</div>
 			## END PAGE TITLE ##
 

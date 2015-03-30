@@ -361,7 +361,7 @@ def create(request):
 	# Get Guest group for the new people
 	try:
 		group = hmod.Group.objects.get(name='Guest')
-	except Group.DoesNotExist:
+	except hmod.Group.DoesNotExist:
 		HttpResponseRedirect('/users/users/')
 
 	# Create new Address object with nothing in it

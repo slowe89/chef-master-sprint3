@@ -174,7 +174,6 @@ class PublicEvent(models.Model):
 # areas, and takes place at a venue. 
 
 class Event(models.Model):
-    name           = models.TextField(max_length=100)
     start_date     = models.DateTimeField()
     end_date       = models.DateTimeField()
     event_map      = models.FileField()

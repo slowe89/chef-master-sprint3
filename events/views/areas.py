@@ -61,7 +61,7 @@ class EditAreaForm(CustomForm):
 
 				if area.place_number == self.cleaned_data['place_number']:
 
-					raise forms.ValidationError(_("This place number already exists for {0}").format(event.name))
+					raise forms.ValidationError(_("This place number already exists for {0}").format(event.event_template.name))
 
 		return self.cleaned_data['place_number']
 
@@ -218,6 +218,8 @@ def view(request):
 		event = hmod.Event.objects.get(id=request.urlparams[0])
 	except hmod.Event.DoesNotExist:
 		return HttpResponseRedirect('/events/events')
+
+
 
 	params['event'] = event
 

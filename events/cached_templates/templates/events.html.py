@@ -4,13 +4,13 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1424481032.771418
+_modified_time = 1427673822.386526
 _enable_loop = True
-_template_filename = '/Users/John/DevProjects/Repositories/chef/events/templates/events.html'
+_template_filename = '/Users/spencerlowe/PycharmProjects/chef-master/events/templates/events.html'
 _template_uri = 'events.html'
 _source_encoding = 'ascii'
 import os, os.path, re
-_exports = ['paper_elements_import', 'page_title', 'content', 'extra_links', 'tab_title']
+_exports = ['paper_elements_import', 'page_title', 'extra_links', 'content', 'tab_title']
 
 
 def _mako_get_namespace(context, name):
@@ -28,18 +28,18 @@ def render_body(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
         __M_locals = __M_dict_builtin(pageargs=pageargs)
+        def content():
+            return render_content(context._locals(__M_locals))
+        def tab_title():
+            return render_tab_title(context._locals(__M_locals))
         def paper_elements_import():
             return render_paper_elements_import(context._locals(__M_locals))
         events = context.get('events', UNDEFINED)
-        def page_title():
-            return render_page_title(context._locals(__M_locals))
-        def tab_title():
-            return render_tab_title(context._locals(__M_locals))
-        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
-        def content():
-            return render_content(context._locals(__M_locals))
         def extra_links():
             return render_extra_links(context._locals(__M_locals))
+        def page_title():
+            return render_page_title(context._locals(__M_locals))
+        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
         __M_writer = context.writer()
         __M_writer('\n\n')
         __M_writer('\n\n')
@@ -102,14 +102,29 @@ def render_page_title(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
+def render_extra_links(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
+        def extra_links():
+            return render_extra_links(context)
+        __M_writer = context.writer()
+        __M_writer('\n\t<link rel="stylesheet" type="text/css" href="')
+        __M_writer(str( STATIC_URL ))
+        __M_writer('base_admin/styles/View.css">\n')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
 def render_content(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
-        def page_title():
-            return render_page_title(context)
+        events = context.get('events', UNDEFINED)
         def content():
             return render_content(context)
-        events = context.get('events', UNDEFINED)
+        def page_title():
+            return render_page_title(context)
         __M_writer = context.writer()
         __M_writer('\n\t\n')
         __M_writer('\t')
@@ -134,7 +149,7 @@ def render_content(context,**pageargs):
         __M_writer('\t<table class="table table-hover table-bordered">\n\t\t<thead>\n\t\t\t<tr>\n\t\t\t\t<th>\n\t\t\t\t\t<paper-button raised class="">Select All</paper-button>\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tName\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tStart Date\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tVenue\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tActions\n\t\t\t\t</th>\n\t\t\t</tr>\n\t\t</thead>\n\t\t<tbody>\n')
         for event in events:
             __M_writer('\t\t\t\t<tr>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t<paper-checkbox></paper-checkbox>\n\t\t\t\t\t</td>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t')
-            __M_writer(str( event.name ))
+            __M_writer(str( event.event_template.name ))
             __M_writer('\n\t\t\t\t\t</td>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t')
             __M_writer(str( event.start_date.strftime("%B %d, %Y") ))
             __M_writer('\n\t\t\t\t\t</td>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t')
@@ -157,21 +172,6 @@ def render_content(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
-def render_extra_links(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
-        def extra_links():
-            return render_extra_links(context)
-        __M_writer = context.writer()
-        __M_writer('\n\t<link rel="stylesheet" type="text/css" href="')
-        __M_writer(str( STATIC_URL ))
-        __M_writer('base_admin/styles/View.css">\n')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
 def render_tab_title(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
@@ -186,6 +186,6 @@ def render_tab_title(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"uri": "events.html", "filename": "/Users/John/DevProjects/Repositories/chef/events/templates/events.html", "line_map": {"128": 82, "129": 100, "130": 103, "131": 106, "132": 108, "133": 110, "134": 112, "135": 133, "136": 134, "137": 139, "138": 139, "139": 142, "140": 142, "141": 145, "142": 145, "143": 148, "144": 148, "145": 151, "146": 151, "147": 154, "148": 154, "149": 157, "150": 157, "151": 163, "152": 166, "153": 168, "154": 172, "27": 0, "160": 21, "167": 21, "168": 22, "169": 22, "44": 7, "45": 9, "175": 11, "50": 13, "181": 11, "55": 19, "187": 181, "60": 23, "70": 15, "77": 15, "78": 16, "79": 16, "80": 17, "81": 17, "82": 18, "83": 18, "89": 28, "95": 28, "96": 32, "97": 36, "98": 38, "99": 47, "105": 25, "114": 25, "115": 28, "120": 49, "121": 51, "122": 53, "123": 56, "124": 59, "125": 74, "126": 77, "127": 79}, "source_encoding": "ascii"}
+{"filename": "/Users/spencerlowe/PycharmProjects/chef-master/events/templates/events.html", "line_map": {"129": 25, "130": 28, "135": 49, "136": 51, "137": 53, "138": 56, "139": 59, "140": 74, "141": 77, "142": 79, "143": 82, "144": 100, "145": 103, "146": 106, "147": 108, "148": 110, "149": 112, "150": 133, "151": 134, "152": 139, "153": 139, "154": 142, "27": 0, "156": 145, "157": 145, "158": 148, "159": 148, "160": 151, "161": 151, "162": 154, "155": 142, "164": 157, "163": 154, "166": 163, "167": 166, "168": 168, "169": 172, "44": 7, "45": 9, "175": 11, "50": 13, "181": 11, "55": 19, "187": 181, "60": 23, "70": 15, "77": 15, "78": 16, "79": 16, "80": 17, "81": 17, "82": 18, "83": 18, "89": 28, "95": 28, "96": 32, "97": 36, "98": 38, "99": 47, "165": 157, "105": 21, "112": 21, "113": 22, "114": 22, "120": 25}, "source_encoding": "ascii", "uri": "events.html"}
 __M_END_METADATA
 """

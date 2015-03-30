@@ -20,6 +20,7 @@ from django_mako_plus.controller.router import get_renderer
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 
+
 templater = get_renderer('events')
 
 ##########################################################################################
@@ -139,6 +140,7 @@ class EditEventForm(CustomForm):
     link = '/events/events'
 
     name = forms.CharField(required=True, max_length=100)
+    description = forms.CharField(required=False, max_length=5000)
     start_date = forms.DateField(widget=forms.DateInput)
     end_date = forms.DateField(widget=forms.DateInput)
     venue = forms.ModelChoiceField(queryset=hmod.Venue.objects.all(), empty_label=None)
@@ -184,7 +186,7 @@ def process_request(request):
 
     # Delete all events that exist in the database with names that are blank
     # (when someone starts an event and abandons it)
-    events = hmod.Event.objects.filter(name='').delete()
+    events = hmod.PublicEvent.objects.filter(name='').delete()
 
     # also delete all venues that were created in the creation of the events
     venues = hmod.Venue.objects.filter(name='').delete()
@@ -223,7 +225,8 @@ def edit(request):
 
     # Pass in user data to the form
     form = EditEventForm(request, initial={
-        'name': event.name,
+        'name': event.event_template.name,
+        'description': event.event_template.description,
         'start_date': event.start_date,
         'end_date': event.end_date,
         'venue': event.venue
@@ -237,7 +240,8 @@ def edit(request):
         if form.is_valid():
 
             # Update the object
-            event.name = form.cleaned_data['name']
+            event.event_template.name = form.cleaned_data['name']
+            event.event_template.description = form.cleaned_data['description']
             event.start_date = form.cleaned_data['start_date']
             event.end_date = form.cleaned_data['end_date']
             event.venue = form.cleaned_data['venue']
@@ -272,7 +276,8 @@ def create(request):
     venue.save()
 
     event = hmod.Event()
-    event.name = ''
+    event.event_template.name = ''
+    event.event_template.description = ''
     event.start_date = timezone.now()
     event.end_date = timezone.now()
     event.venue = venue
@@ -321,3 +326,42 @@ def view(request):
     params['events'] = events
 
     return templater.render_to_response(request, 'viewevents.html', params)
+
+##########################################################################################
+#################################### GUEST VIEW EVENT DETAILS ############################
+##########################################################################################
+
+@view_function
+def details(request):
+
+    # Define the view bag
+    params={}
+
+    try:
+        event = hmod.Event.objects.get(id=request.urlparams[0])
+    except hmod.Event.DoesNotExist:
+        return HttpResponseRedirect('/events/events.view/')
+
+    # Pass in user data to the form
+    form = EditEventForm(request, initial={
+        'name': event.event_template.name,
+        'description': event.event_template.description,
+        'start_date': event.start_date,
+        'end_date': event.end_date,
+        'venue': event.venue
+        })
+
+    form.fields['name'].widget.attrs['readonly'] = True
+    form.fields['description'].widget.attrs['readonly'] = True
+    form.fields['start_date'].widget.attrs['readonly'] = True
+    form.fields['end_date'].widget.attrs['readonly'] = True
+    form.fields['venue'].widget.attrs['readonly'] = True
+
+    form.disabled = True
+    form.delete_button = False
+    form.cancel_button = False
+    form.submit_button = False
+
+    params['form'] = form
+
+    return templater.render_to_response(request, 'eventdetails.html', params)

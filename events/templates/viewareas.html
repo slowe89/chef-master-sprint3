@@ -9,7 +9,7 @@
 <%inherit file="/base_admin/templates/base.htm" />
 
 <%block name="tab_title">
-  Areas for ${ event.name }
+  Areas for ${ event.event_template.name }
 </%block>
 
 <%block name="paper_elements_import">
@@ -30,7 +30,7 @@
 			
 			## PAGE TITLE ##
 			<div class="col-md-8">
-				<h1>Areas for ${ event.name }</h1>
+				<h1>Areas for ${ event.event_template.name }</h1>
 			</div>
 			## END PAGE TITLE ##
 
@@ -73,14 +73,8 @@
 						${ area.place_number }
 					</td>
 					<td>
-						<a class="button" href="/events/events.edit/${ event.id }">
+						<a class="button" href="/events/events.details/${ event.id }">
 							<paper-button raised class="success_button">Event Info</paper-button>
-						</a>
-						<a class="button" href="/events/areas.edit/${ event.id }/${ area.id }">
-							<paper-button raised class="edit_button">Edit</paper-button>
-						</a>
-						<a class="button" href="/events/areas.delete/${ event.id }/${ area.id }">
-							<paper-button raised class="delete_button">Delete</paper-button>
 						</a>
 					</td>
 				</tr>

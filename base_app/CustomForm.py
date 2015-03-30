@@ -15,336 +15,344 @@ from django import forms
 
 class CustomForm(forms.Form):
 
-	title = ''
-	request = ''
-	link = ''
-
-	# Custom action, if desired
-	custom_action = ''
-
-	# ID passed in if desired
-	form_id = ''
-
-	# Determines if the buttons need extra parameters from the URL
-	needs_params = False
-	
-	# For use in the delete button
-	delete_type = ''
-
-	# Variable that determines whether to include the delete button or not
-	delete_button = True
-
-	# Variable that determines whether to include the cancel button or not
-	cancel_button = True
-
-	# Variable to set the fields as disabled
-	# NOTE! - Also removes the buttons on the bottom of the form, and includes
-	# an "Edit" button. 
-	disabled = False
-
-	# Variable for the Submit button text (default = 'Submit')
-	submit_text = 'Submit'
-
-	# Variable for the iteration through loops, so as to add unique ID's.
-	iterator = 1
-
-	def __init__(self, request, *args, **kwargs):
-		super().__init__(*args, **kwargs)
-		self.request = request
-
-	def as_table(self):
-
-		# Grab list of the form errors to begin
-		form_errors = self.non_field_errors()
-
-		# List for the HTML to be put together throughout the function
-		html=[]
-
-		## FORM TITLE ##
-		html.append('<h3>{0}</h3>'.format(self.title))
-
-		## Test to see if there are any file fields or image fields in the form
-		## If so, then add a 'enctype' to the form tag:
-		for field in self.visible_fields():
-
-			if self.is_multipart():
-				if self.form_id != '':
-					if self.custom_action != '':
-						html.append('<form enctype="multipart/form-data" id="{0}" method="POST" action="{1}">'.format(self.form_id, self.custom_action))	
-					else: 
-						html.append('<form enctype="multipart/form-data" id="{0}" method="POST">'.format(self.form_id))	
-				else:
-					if self.custom_action != '':
-						html.append('<form enctype="multipart/form-data" method="POST" action="{0}">'.format(self.custom_action))
-					else:
-						html.append('<form enctype="multipart/form-data" method="POST">')
-			else:
-				if self.form_id != '':
-					if self.custom_action != '':
-						html.append('<form id="{0}" method="POST" action="{1}">'.format(self.form_id, self.custom_action))
-					else:
-						html.append('<form id="{0}" method="POST">'.format(self.form_id))
-				else:
-					if self.custom_action != '':
-						html.append('<form method="POST" action="{0}">'.format(self.custom_action))
-					else:
-						html.append('<form method="POST">')
-
-		## IF FORM ERRORS OCCUR ##
-		if form_errors:
-
-			## START DIV FOR ERRORS ##
-			html.append('<div class="form_errors">')
-
-			for error in form_errors:
-				html.append('<p class="form_error">*{0}</p>'.format(error))
-
-			## END DIV FOR ERRORS ##
-			html.append('</div>')
-
-		## HIDDEN FIELDS ##
-		for field in self.hidden_fields():
-			
-			## BEGIN ROW ##
-			html.append('<div class="row">')
+    title = ''
+    request = ''
+    link = ''
 
-			## BEGIN FIELD COLUMN ##
-			html.append('<div class="col-md-8">')
-
-			html.append('<div class="hidden_fields">{0}</div>'.format(field))
-			## ERRORS ##
-			html.append('<div class="hidden_field_error" id="hidden_field_error{0}"></div>'.format(self.iterator))
-
-			## END FIELD COLUMN ##
-			html.append('</div>')
+    # Custom action, if desired
+    custom_action = ''
 
-			## END ROW ##
-			html.append('</div>')
+    # ID passed in if desired
+    form_id = ''
 
-			self.iterator += 1
+    # Determines if the buttons need extra parameters from the URL
+    needs_params = False
 
-		## FOR LOOP TO LOOP OVER THE FORMS FIELD ##
-		for field in self.visible_fields():
+    # For use in the delete button
+    delete_type = ''
 
-			## BEGIN ROW ##
-			html.append('<div class="row">')
+    # Variable that determines whether to include the delete button or not
+    delete_button = True
 
-			## BEGIN FIELD COLUMN ##
-			html.append('<div class="col-md-7">')
+    # Variable that determines whether to include the cancel button or not
+    cancel_button = True
 
-			## If the field is a text-input field, then wrap it with the text input decorator
-			if field.field.widget.__class__.__name__ == 'TextInput' or field.field.widget.__class__.__name__ == 'EmailInput' or field.field.widget.__class__.__name__ == 'PasswordInput' or field.field.widget.__class__.__name__ == 'NumberInput':
-				
-				## TEXT INPUT FIELDS ##
-				if self.disabled:
-					html.append('<paper-input-decorator floatingLabel label="{0}" disabled="{1}">'.format(field.label, self.disabled))
-				else:
-					html.append('<paper-input-decorator floatingLabel label="{0}">'.format(field.label))
-				html.append('{0}'.format(field))
-				html.append('</paper-input-decorator>')
+    # Variable that determines whether to include the cancel button or not
+    submit_button = True
 
-			## for all other fields, don't use the decorator
-			else:
-				html.append('<p class="input_label">{0}</p>'.format(field.label))
-				html.append('{0}'.format(field))
-			
-			## END FIELD COLUMN ##
-			html.append('</div>')
+    # Variable to set the fields as disabled
+    # NOTE! - Also removes the buttons on the bottom of the form, and includes
+    # an "Edit" button.
+    disabled = False
 
-			## IF FIELD ERRORS OCCUR ##
-			if field.errors:
+    # Variable for the Submit button text (default = 'Submit')
+    submit_text = 'Submit'
 
-				## BEGIN ERROR COLUMN ##
-				html.append('<div class="col-md-5">')
-				
-				label = field.label.replace(' ', '_').lower()
+    # Variable for the iteration through loops, so as to add unique ID's.
+    iterator = 1
 
-				## ERRORS ##
-				html.append('<div class="field_error" id="error_{0}">{1}</div>'.format(label, field.errors.as_text()))
+    def __init__(self, request, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.request = request
 
-				## END ERROR COLUMN ##
-				html.append('</div>')
+    def as_table(self):
 
-			## END ROW ##
-			html.append('</div>')
+        # Grab list of the form errors to begin
+        form_errors = self.non_field_errors()
 
-		if self.disabled:
+        # List for the HTML to be put together throughout the function
+        html=[]
 
-			## EDIT BUTTON ##
-			html.append('<a class="button" href="/{0}.edit/"><paper-button raised class="edit_button">Edit Information</paper-button></a>'.format(self.link))
+        ## FORM TITLE ##
+        html.append('<h3>{0}</h3>'.format(self.title))
 
-		else:
-			## SUBMIT BUTTON ## 
-			html.append('<paper-button raised class="success_button form_button"><button type="submit">{0}</button></paper-button>'.format(self.submit_text))
+        ## Test to see if there are any file fields or image fields in the form
+        ## If so, then add a 'enctype' to the form tag:
+        for field in self.visible_fields():
 
-			if self.delete_button:
+            if self.is_multipart():
+                if self.form_id != '':
+                    if self.custom_action != '':
+                        html.append('<form enctype="multipart/form-data" id="{0}" method="POST" action="{1}">'.format(self.form_id, self.custom_action))
+                    else:
+                        html.append('<form enctype="multipart/form-data" id="{0}" method="POST">'.format(self.form_id))
+                else:
+                    if self.custom_action != '':
+                        html.append('<form enctype="multipart/form-data" method="POST" action="{0}">'.format(self.custom_action))
+                    else:
+                        html.append('<form enctype="multipart/form-data" method="POST">')
+            else:
+                if self.form_id != '':
+                    if self.custom_action != '':
+                        html.append('<form id="{0}" method="POST" action="{1}">'.format(self.form_id, self.custom_action))
+                    else:
+                        html.append('<form id="{0}" method="POST">'.format(self.form_id))
+                else:
+                    if self.custom_action != '':
+                        html.append('<form method="POST" action="{0}">'.format(self.custom_action))
+                    else:
+                        html.append('<form method="POST">')
 
-				## DELETE BUTTON ##
-				if self.needs_params:
-					html.append('<a class="button" href="/{0}.delete{1}/{2}/{3}"><paper-button raised class="delete_button">Delete</paper-button></a>'.format(self.link, self.delete_type, self.request.urlparams[0], self.request.urlparams[1]))
-				else:
-					html.append('<a class="button" href="/{0}.delete{1}/{2}"><paper-button raised class="delete_button">Delete</paper-button></a>'.format(self.link, self.delete_type, self.request.urlparams[0]))
+        ## IF FORM ERRORS OCCUR ##
+        if form_errors:
 
-			if self.cancel_button:
+            ## START DIV FOR ERRORS ##
+            html.append('<div class="form_errors">')
 
-				## CANCEL BUTTON ##
-				if self.needs_params:
-					html.append('<a class="button" href="/{0}/{1}"><paper-button raised class="create_button">Cancel</paper-button></a>'.format(self.link, self.request.urlparams[0]))
-				else:
-					html.append('<a class="button" href="/{0}"><paper-button raised class="create_button">Cancel</paper-button></a>'.format(self.link))
+            for error in form_errors:
+                html.append('<p class="form_error">*{0}</p>'.format(error))
 
-		## END FORM ##
-		html.append('</form>')
+            ## END DIV FOR ERRORS ##
+            html.append('</div>')
 
-		## MAKE STRING OUT OF HTML LIST ##
-		finished_html = ''.join(html)
+        ## HIDDEN FIELDS ##
+        for field in self.hidden_fields():
 
-		return finished_html
+            ## BEGIN ROW ##
+            html.append('<div class="row">')
 
-	## This function is to be called for the login page specifically
-	def as_login(self):
+            ## BEGIN FIELD COLUMN ##
+            html.append('<div class="col-md-8">')
 
-		# List for the HTML to be put together throughout the function
-		html=[]
+            html.append('<div class="hidden_fields">{0}</div>'.format(field))
+            ## ERRORS ##
+            html.append('<div class="hidden_field_error" id="hidden_field_error{0}"></div>'.format(self.iterator))
 
-		## BEGIN FORM ##
-		
-		# If self.modal = True, return the modal action
-		# If false, return with no action
-		
-		if self.modal:
-			html.append('<form id="login_form" method="POST" action="/homepage/login/modal/">')
-		else:
-			html.append('<form id="login_form" method="POST">')
+            ## END FIELD COLUMN ##
+            html.append('</div>')
 
-		form_errors = self.non_field_errors()
+            ## END ROW ##
+            html.append('</div>')
 
-		## IF FORM ERRORS OCCUR ##
-		if form_errors:
+            self.iterator += 1
 
-			## START DIV FOR ERRORS ##
-			html.append('<div class="form_errors">')
+        ## FOR LOOP TO LOOP OVER THE FORMS FIELD ##
+        for field in self.visible_fields():
 
-			for error in form_errors:
-				html.append('<p class="form_error">*{0}</p>'.format(error))
+            ## BEGIN ROW ##
+            html.append('<div class="row">')
 
-			## END DIV FOR ERRORS ##
-			html.append('</div>')
+            ## BEGIN FIELD COLUMN ##
+            html.append('<div class="col-md-7">')
 
-		## HIDDEN FIELDS
-		for field in self.hidden_fields():
-			html.append('div class="hidden_fields">{0}</div'.format(field))
+            ## If the field is a text-input field, then wrap it with the text input decorator
+            if field.field.widget.__class__.__name__ == 'TextInput' or field.field.widget.__class__.__name__ == 'EmailInput' or field.field.widget.__class__.__name__ == 'PasswordInput' or field.field.widget.__class__.__name__ == 'NumberInput':
 
-		## FOR LOOP TO LOOP OVER THE FORMS FIELD ##
-		for field in self.visible_fields():
+                ## TEXT INPUT FIELDS ##
+                if self.disabled:
+                    html.append('<paper-input-decorator floatingLabel label="{0}" disabled="{1}">'.format(field.label, self.disabled))
+                else:
+                    html.append('<paper-input-decorator floatingLabel label="{0}">'.format(field.label))
+                html.append('{0}'.format(field))
+                html.append('</paper-input-decorator>')
 
-			## IF FIELD ERRORS OCCUR ##
-			if field.errors:
-			
-				## ERRORS ##
-				html.append('<div class="field_error">{0}</div>'.format(field.errors.as_text()))
+            ## for all other fields, don't use the decorator
+            else:
+                html.append('<p class="input_label">{0}</p>'.format(field.label))
+                html.append('{0}'.format(field))
 
-			## FIELDS ##
-			html.append('<paper-input-decorator floatingLabel label="{0}">'.format(field.label))
-			html.append('{0}'.format(field))
-			html.append('</paper-input-decorator>')
+            ## END FIELD COLUMN ##
+            html.append('</div>')
 
-		## SUBMIT BUTTON ## 
-		html.append('<paper-button raised class="success_button form_button"><button type="submit">Submit</button></paper-button>')
+            ## IF FIELD ERRORS OCCUR ##
+            if field.errors:
 
-		## END FORM ##
-		html.append('</form>')
+                ## BEGIN ERROR COLUMN ##
+                html.append('<div class="col-md-5">')
 
-		## MAKE STRING OUT OF HTML LIST ##
-		finished_html = ''.join(html)
+                label = field.label.replace(' ', '_').lower()
 
-		return finished_html
+                ## ERRORS ##
+                html.append('<div class="field_error" id="error_{0}">{1}</div>'.format(label, field.errors.as_text()))
 
-	def as_event_form(self):
+                ## END ERROR COLUMN ##
+                html.append('</div>')
 
-		# Grab list of the form errors to begin
-		form_errors = self.non_field_errors()
+            ## END ROW ##
+            html.append('</div>')
 
-		# List for the HTML to be put together throughout the function
-		html=[]
+        if self.disabled:
 
-		## FORM TITLE ##
-		html.append('<h3>{0}</h3>'.format(self.title))
+            if self.submit_button:
 
-		## BEGIN FORM ##
-		html.append('<form method="POST">')
+                ## EDIT BUTTON ##
+                html.append('<a class="button" href="/{0}.edit/"><paper-button raised class="edit_button">Edit Information</paper-button></a>'.format(self.link))
 
-		## IF FORM ERRORS OCCUR ##
-		if form_errors:
+        else:
+            ## SUBMIT BUTTON ##
+            if self.submit_button:
 
-			## START DIV FOR ERRORS ##
-			html.append('<div class="form_errors">')
+                ## SUBMIT BUTTON ##
+                html.append('<paper-button raised class="success_button form_button"><button type="submit">{0}</button></paper-button>'.format(self.submit_text))
 
-			for error in form_errors:
-				html.append('<p class="form_error">*{0}</p>'.format(error))
+            if self.delete_button:
 
-			## END DIV FOR ERRORS ##
-			html.append('</div>')
+                ## DELETE BUTTON ##
+                if self.needs_params:
+                    html.append('<a class="button" href="/{0}.delete{1}/{2}/{3}"><paper-button raised class="delete_button">Delete</paper-button></a>'.format(self.link, self.delete_type, self.request.urlparams[0], self.request.urlparams[1]))
+                else:
+                    html.append('<a class="button" href="/{0}.delete{1}/{2}"><paper-button raised class="delete_button">Delete</paper-button></a>'.format(self.link, self.delete_type, self.request.urlparams[0]))
 
-		## HIDDEN FIELDS
-		for field in self.hidden_fields():
-			html.append('div class="hidden_fields">{0}</div'.format(field))
+            if self.cancel_button:
 
-		## FOR LOOP TO LOOP OVER THE FORMS FIELD ##
-		for field in self.visible_fields():
+                ## CANCEL BUTTON ##
+                if self.needs_params:
+                    html.append('<a class="button" href="/{0}/{1}"><paper-button raised class="create_button">Cancel</paper-button></a>'.format(self.link, self.request.urlparams[0]))
+                else:
+                    html.append('<a class="button" href="/{0}"><paper-button raised class="create_button">Cancel</paper-button></a>'.format(self.link))
 
-			## BEGIN ROW ##
-			html.append('<div class="row">')
+        ## END FORM ##
+        html.append('</form>')
 
-			## BEGIN FIELD COLUMN ##
-			## If there are errors, change the layout of the page to fit them
-			if field.errors:
-				html.append('<div class="col-md-5">')
-			else:
-				html.append('<div class="col-md-8">')
+        ## MAKE STRING OUT OF HTML LIST ##
+        finished_html = ''.join(html)
 
-			## FIELDS ##
-			html.append('<paper-input-decorator floatingLabel label="{0}">'.format(field.label))
-			html.append('{0}'.format(field))
-			html.append('</paper-input-decorator>')
-			
-			## END FIELD COLUMN ##
-			html.append('</div>')
+        return finished_html
 
-			## IF FIELD ERRORS OCCUR ##
-			if field.errors:
+    ## This function is to be called for the login page specifically
+    def as_login(self):
 
-				## BEGIN ERROR COLUMN ##
-				html.append('<div class="col-md-7">')
-				
-				## ERRORS ##
-				html.append('<div class="field_error">{0}</div>'.format(field.errors.as_text()))
+        # List for the HTML to be put together throughout the function
+        html=[]
 
-				## END ERROR COLUMN ##
-				html.append('</div>')
+        ## BEGIN FORM ##
 
-			## END ROW ##
-			html.append('</div>')
+        # If self.modal = True, return the modal action
+        # If false, return with no action
 
-		## SUBMIT BUTTON ## 
-		html.append('<paper-button raised class="success_button form_button"><button type="submit">Submit</button></paper-button>')
+        if self.modal:
+            html.append('<form id="login_form" method="POST" action="/homepage/login/modal/">')
+        else:
+            html.append('<form id="login_form" method="POST">')
 
-		## DELETE BUTTON ##
-		html.append('<a class="button" href="' + self.link +'.delete/' + self.request.urlparams[0] + '"><paper-button raised class="delete_button">Delete</paper-button></a>')
+        form_errors = self.non_field_errors()
 
-		## CANCEL BUTTON ##
-		html.append('<a class="button" href="' + self.link + '"><paper-button raised class="create_button">Cancel</paper-button></a>')
+        ## IF FORM ERRORS OCCUR ##
+        if form_errors:
 
-		## VIEW AREAS BUTTON ##
-		html.append('<a class="button" href="/events/areas/' + self.request.urlparams[0] +'"><paper-button raised class="edit_button" form_button">View Areas</paper-button></a>')
+            ## START DIV FOR ERRORS ##
+            html.append('<div class="form_errors">')
 
-		## VIEW AREAS BUTTON ##
-		html.append('<a class="button" href="/events/venues.create/"><paper-button raised class="edit_button" form_button">Add Venue</paper-button></a>')
+            for error in form_errors:
+                html.append('<p class="form_error">*{0}</p>'.format(error))
 
-		## END FORM ##
-		html.append('</form>')
+            ## END DIV FOR ERRORS ##
+            html.append('</div>')
 
-		## MAKE STRING OUT OF HTML LIST ##
-		finished_html = ''.join(html)
+        ## HIDDEN FIELDS
+        for field in self.hidden_fields():
+            html.append('div class="hidden_fields">{0}</div'.format(field))
 
-		return finished_html
+        ## FOR LOOP TO LOOP OVER THE FORMS FIELD ##
+        for field in self.visible_fields():
+
+            ## IF FIELD ERRORS OCCUR ##
+            if field.errors:
+
+                ## ERRORS ##
+                html.append('<div class="field_error">{0}</div>'.format(field.errors.as_text()))
+
+            ## FIELDS ##
+            html.append('<paper-input-decorator floatingLabel label="{0}">'.format(field.label))
+            html.append('{0}'.format(field))
+            html.append('</paper-input-decorator>')
+
+        ## SUBMIT BUTTON ##
+        html.append('<paper-button raised class="success_button form_button"><button type="submit">Submit</button></paper-button>')
+
+        ## END FORM ##
+        html.append('</form>')
+
+        ## MAKE STRING OUT OF HTML LIST ##
+        finished_html = ''.join(html)
+
+        return finished_html
+
+    def as_event_form(self):
+
+        # Grab list of the form errors to begin
+        form_errors = self.non_field_errors()
+
+        # List for the HTML to be put together throughout the function
+        html=[]
+
+        ## FORM TITLE ##
+        html.append('<h3>{0}</h3>'.format(self.title))
+
+        ## BEGIN FORM ##
+        html.append('<form method="POST">')
+
+        ## IF FORM ERRORS OCCUR ##
+        if form_errors:
+
+            ## START DIV FOR ERRORS ##
+            html.append('<div class="form_errors">')
+
+            for error in form_errors:
+                html.append('<p class="form_error">*{0}</p>'.format(error))
+
+            ## END DIV FOR ERRORS ##
+            html.append('</div>')
+
+        ## HIDDEN FIELDS
+        for field in self.hidden_fields():
+            html.append('div class="hidden_fields">{0}</div'.format(field))
+
+        ## FOR LOOP TO LOOP OVER THE FORMS FIELD ##
+        for field in self.visible_fields():
+
+            ## BEGIN ROW ##
+            html.append('<div class="row">')
+
+            ## BEGIN FIELD COLUMN ##
+            ## If there are errors, change the layout of the page to fit them
+            if field.errors:
+                html.append('<div class="col-md-5">')
+            else:
+                html.append('<div class="col-md-8">')
+
+            ## FIELDS ##
+            html.append('<paper-input-decorator floatingLabel label="{0}">'.format(field.label))
+            html.append('{0}'.format(field))
+            html.append('</paper-input-decorator>')
+
+            ## END FIELD COLUMN ##
+            html.append('</div>')
+
+            ## IF FIELD ERRORS OCCUR ##
+            if field.errors:
+
+                ## BEGIN ERROR COLUMN ##
+                html.append('<div class="col-md-7">')
+
+                ## ERRORS ##
+                html.append('<div class="field_error">{0}</div>'.format(field.errors.as_text()))
+
+                ## END ERROR COLUMN ##
+                html.append('</div>')
+
+            ## END ROW ##
+            html.append('</div>')
+
+        ## SUBMIT BUTTON ##
+        html.append('<paper-button raised class="success_button form_button"><button type="submit">Submit</button></paper-button>')
+
+        ## DELETE BUTTON ##
+        html.append('<a class="button" href="' + self.link +'.delete/' + self.request.urlparams[0] + '"><paper-button raised class="delete_button">Delete</paper-button></a>')
+
+        ## CANCEL BUTTON ##
+        html.append('<a class="button" href="' + self.link + '"><paper-button raised class="create_button">Cancel</paper-button></a>')
+
+        ## VIEW AREAS BUTTON ##
+        html.append('<a class="button" href="/events/areas/' + self.request.urlparams[0] +'"><paper-button raised class="edit_button" form_button">View Areas</paper-button></a>')
+
+        ## VIEW AREAS BUTTON ##
+        html.append('<a class="button" href="/events/venues.create/"><paper-button raised class="edit_button" form_button">Add Venue</paper-button></a>')
+
+        ## END FORM ##
+        html.append('</form>')
+
+        ## MAKE STRING OUT OF HTML LIST ##
+        finished_html = ''.join(html)
+
+        return finished_html
