@@ -226,6 +226,15 @@ inventory.specs            = specs
 
 inventory.save()
 
+sale_item = mod.ExpectedSaleItem()
+
+sale_item.product_specification = specs
+sale_item.high_price = '25.00'
+sale_item.low_price = '12.00'
+sale_item.area = area
+
+sale_item.save()
+
 ############################ SERIALIZED PRODUCT #############################
 
 # Broom

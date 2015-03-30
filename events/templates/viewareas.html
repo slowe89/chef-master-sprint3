@@ -42,46 +42,33 @@
 	<hr>
 	## END SEPARATOR ##
 
-	## TABLE OF USERS ##
-	<table class="table table-hover table-bordered">
-		<thead>
-			<tr>
-				<th>
-					<paper-button raised class="">Select All</paper-button>
-				</th>
-				<th>
-					Name
-				</th>
-				<th>
-					Place Number
-				</th>
-				<th>
-					Actions
-				</th>
-			</tr>
-		</thead>
-		<tbody>
+	## LISTS OF PRODUCTS BY AREA ##
 			%for area in areas:
-				<tr>
-					<td>
-						<paper-checkbox></paper-checkbox>
-					</td>
-					<td>
-						${ area.name }
-					</td>
-					<td>
-						${ area.place_number }
-					</td>
-					<td>
-						<a class="button" href="/events/events.details/${ event.id }">
-							<paper-button raised class="success_button">Event Info</paper-button>
-						</a>
-					</td>
-				</tr>
+				<div>
+                    <h3>${ area.name }</h3>
+                    <table class="table table-hover table-bordered">
+                        <tr><th>Photo</th><th>Sale Item</th><th>High Price</th><th>Low Price</th></tr>
+                        %for item in areas[area]:
+                            <tr>
+                                <td>
+                                    <img src="${ STATIC_URL }${ item.product_specification.photograph.image }" class="product_image"/>
+                                </td>
+                                <td>
+                                    ${ item.product_specification.name }
+                                </td>
+                                <td>
+                                    ${ item.high_price }
+                                </td>
+                                <td>
+                                    ${ item.low_price }
+                                </td>
+                            </tr>
+
+                        %endfor
+                    </table>
+                </div>
 			%endfor
-		</tbody>
-	</table>	
-	## END TABLE OF USERS ##
+	## END LIST ##
 
 	## SPACER DIVS ##
 	<div class="spacer"></div>
