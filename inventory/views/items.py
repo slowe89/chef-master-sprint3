@@ -95,7 +95,7 @@ class EditWItemForm(EditNWItemForm):
 ##########################################################################################
 
 @view_function
-@permission_required(['base_app.change_wardrobeitem', 'base_app.change_nonwardrobeitem'], login_url='/homepage/login/')
+@permission_required(['base_app.change_wardrobeitem', 'base_app.change_Item'], login_url='/homepage/login/')
 def process_request(request):
 	
 	# Define the view bag
@@ -103,16 +103,16 @@ def process_request(request):
 
 	# Delete all items that exist in the database with names that are blank
 	# (when someone starts an item and abandons it)
-	items = hmod.NonWardrobeItem.objects.filter(name='').delete()
-	items = hmod.WardrobeItem.objects.filter(name='').delete()
-	owner = hmod.User.objects.filter(username='').delete()
+	# items = hmod.Item.objects.filter(name='').delete()
+	# items = hmod.WardrobeItem.objects.filter(name='').delete()
+	# owner = hmod.User.objects.filter(username='').delete()
 
 	# Grab all the items from the database, both wardrobe and non-wardrobe
-	items = hmod.NonWardrobeItem.objects.all().order_by('name')
+	items = hmod.Item.objects.all()
 
 	params['n_w_items'] = items
 
-	items = hmod.WardrobeItem.objects.all().order_by('name')
+	items = hmod.WardrobeItem.objects.all()
 
 	params['w_items'] = items
 
@@ -123,7 +123,7 @@ def process_request(request):
 ##########################################################################################
 
 @view_function
-@permission_required(['base_app.change_nonwardrobeitem'], login_url='/homepage/login/')
+@permission_required(['base_app.change_Item'], login_url='/homepage/login/')
 def edit_non(request):
 	
 	# Define the view bag
@@ -138,13 +138,13 @@ def edit_non(request):
 	# For example [0] = a, [1] = b... 
 
 	try:
-		item = hmod.NonWardrobeItem.objects.get(id=request.urlparams[0])
-	except hmod.NonWardrobeItem.DoesNotExist:
+		item = hmod.Item.objects.get(id=request.urlparams[0])
+	except hmod.Item.DoesNotExist:
 		return HttpResponseRedirect('/inventory/items/')
 
 	# Pass in item data to the form
 	form = EditNWItemForm(request, initial={
-		'name': item.name,
+		'name': item.specs.name,
 		'description': item.description,
 		'value': item.value,
 		'is_rentable': item.is_rentable,
@@ -160,7 +160,7 @@ def edit_non(request):
 		if form.is_valid():
 
 			# Update the object
-			item.name = form.cleaned_data['name']
+			item.specs.name = form.cleaned_data['name']
 			item.description = form.cleaned_data['description']
 			item.value = form.cleaned_data['value']
 			item.is_rentable = form.cleaned_data['is_rentable']
@@ -203,7 +203,7 @@ def edit_w(request):
 
 	# Pass in item data to the form
 	form = EditWItemForm(request, initial={
-		'name': item.name,
+		'name': item.specs.name,
 		'description': item.description,
 		'value': item.value,
 		'is_rentable': item.is_rentable,
@@ -227,7 +227,7 @@ def edit_w(request):
 		if form.is_valid():
 
 			# Update the object
-			item.name = form.cleaned_data['name']
+			item.specs.name = form.cleaned_data['name']
 			item.description = form.cleaned_data['description']
 			item.value = form.cleaned_data['value']
 			item.is_rentable = form.cleaned_data['is_rentable']
@@ -257,12 +257,12 @@ def edit_w(request):
 ##########################################################################################
 
 @view_function
-@permission_required(['base_app.add_wardrobeitem', 'base_app.add_nonwardrobeitem'], login_url='/homepage/login/')
+@permission_required(['base_app.add_wardrobeitem', 'base_app.add_Item'], login_url='/homepage/login/')
 def create(request):
 	''' Creates a new item, either wardrobe or non, based on the urlparams passed in '''
 
 	# Delete any new blank items or owners that could have been added before. 
-	items = hmod.NonWardrobeItem.objects.filter(name='').delete()
+	items = hmod.Item.objects.filter(name='').delete()
 	items = hmod.WardrobeItem.objects.filter(name='').delete()
 	owner = hmod.User.objects.filter(username='').delete()
 
@@ -280,8 +280,8 @@ def create(request):
 	
 	if item_type == '1':
 
-		item = hmod.NonWardrobeItem()
-		item.name = ''
+		item = hmod.Item()
+		item.specs.name = ''
 		item.description = ''
 		item.value = 0.00
 		item.is_rentable = False
@@ -297,7 +297,7 @@ def create(request):
 	elif item_type == '2':
 
 		item = hmod.WardrobeItem()
-		item.name = ''
+		item.specs.name = ''
 		item.description = ''
 		item.value = 0.00
 		item.is_rentable = False
@@ -326,14 +326,14 @@ def create(request):
 ##########################################################################################
 
 @view_function
-@permission_required(['base_app.delete_nonwardrobeitem'], login_url='/homepage/login/')
+@permission_required(['base_app.delete_Item'], login_url='/homepage/login/')
 def delete_nw(request):
 
 	''' Deletes a Non-Wardrobe item '''
 
 	try:
-		item = hmod.NonWardrobeItem.objects.get(id=request.urlparams[0])
-	except NonWardrobeItem.DoesNotExist:
+		item = hmod.Item.objects.get(id=request.urlparams[0])
+	except Item.DoesNotExist:
 		pass # Item exists
 
 	item.delete()

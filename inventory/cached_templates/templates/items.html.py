@@ -4,13 +4,13 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1423375466.621125
+_modified_time = 1427752278.278404
 _enable_loop = True
-_template_filename = '/Users/John/DevProjects/Repositories/chef/inventory/templates/items.html'
+_template_filename = '/Users/spencerlowe/PycharmProjects/chef-master/inventory/templates/items.html'
 _template_uri = 'items.html'
 _source_encoding = 'ascii'
 import os, os.path, re
-_exports = ['page_title', 'content', 'tab_title', 'paper_elements_import']
+_exports = ['tab_title', 'page_title', 'content', 'paper_elements_import', 'extra_links']
 
 
 def _mako_get_namespace(context, name):
@@ -28,16 +28,18 @@ def render_body(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
         __M_locals = __M_dict_builtin(pageargs=pageargs)
-        w_items = context.get('w_items', UNDEFINED)
-        n_w_items = context.get('n_w_items', UNDEFINED)
-        def tab_title():
-            return render_tab_title(context._locals(__M_locals))
-        def content():
-            return render_content(context._locals(__M_locals))
-        str = context.get('str', UNDEFINED)
         def page_title():
             return render_page_title(context._locals(__M_locals))
+        str = context.get('str', UNDEFINED)
+        def tab_title():
+            return render_tab_title(context._locals(__M_locals))
+        def extra_links():
+            return render_extra_links(context._locals(__M_locals))
+        n_w_items = context.get('n_w_items', UNDEFINED)
+        w_items = context.get('w_items', UNDEFINED)
         STATIC_URL = context.get('STATIC_URL', UNDEFINED)
+        def content():
+            return render_content(context._locals(__M_locals))
         def paper_elements_import():
             return render_paper_elements_import(context._locals(__M_locals))
         __M_writer = context.writer()
@@ -53,10 +55,27 @@ def render_body(context,**pageargs):
         
 
         __M_writer('\n\n')
+        if 'parent' not in context._data or not hasattr(context._data['parent'], 'extra_links'):
+            context['self'].extra_links(**pageargs)
+        
+
+        __M_writer('\n\n')
         if 'parent' not in context._data or not hasattr(context._data['parent'], 'content'):
             context['self'].content(**pageargs)
         
 
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
+def render_tab_title(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        def tab_title():
+            return render_tab_title(context)
+        __M_writer = context.writer()
+        __M_writer('\n  View Items\n')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -81,12 +100,12 @@ def render_page_title(context,**pageargs):
 def render_content(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
+        n_w_items = context.get('n_w_items', UNDEFINED)
+        w_items = context.get('w_items', UNDEFINED)
         def page_title():
             return render_page_title(context)
         def content():
             return render_content(context)
-        n_w_items = context.get('n_w_items', UNDEFINED)
-        w_items = context.get('w_items', UNDEFINED)
         str = context.get('str', UNDEFINED)
         __M_writer = context.writer()
         __M_writer('\n\t\n')
@@ -113,12 +132,10 @@ def render_content(context,**pageargs):
         __M_writer('\n')
         __M_writer('\t<div class="create_button_div">\n\t\t<a class="button" href="/inventory/items.create/1">\n\t\t\t<paper-button class="create_button" raised>Add New Non-Wardrobe Item</paper-button>\n\t\t</a>\n\t</div>\n')
         __M_writer('\n')
-        __M_writer('\t<table class="table table-hover table-bordered">\n\t\t<thead>\n\t\t\t<tr>\n\t\t\t\t<th>\n\t\t\t\t\t<paper-button raised class="">Select All</paper-button>\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tName\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tIs Rentable?\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tActions\n\t\t\t\t</th>\n\t\t\t</tr>\n\t\t</thead>\n\t\t<tbody>\n')
+        __M_writer('\t<table class="table table-hover table-bordered">\n\t\t<thead>\n\t\t\t<tr>\n\t\t\t\t<th>\n\t\t\t\t\t<paper-button raised class="">Select All</paper-button>\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tName\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tActions\n\t\t\t\t</th>\n\t\t\t</tr>\n\t\t</thead>\n\t\t<tbody>\n')
         for item in n_w_items:
             __M_writer('\t\t\t\t<tr>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t<paper-checkbox></paper-checkbox>\n\t\t\t\t\t</td>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t')
-            __M_writer(str( item.name ))
-            __M_writer('\n\t\t\t\t\t</td>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t')
-            __M_writer(str( item.is_rentable ))
+            __M_writer(str( item.specs.name ))
             __M_writer('\n\t\t\t\t\t</td>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t<a class="button" href="/inventory/items.edit_non/')
             __M_writer(str( item.id ))
             __M_writer('/">\n\t\t\t\t\t\t\t<paper-button raised class="edit_button">Edit</paper-button>\n\t\t\t\t\t\t</a>\n\t\t\t\t\t\t<a class="button" href="/inventory/items.delete_nw')
@@ -132,12 +149,10 @@ def render_content(context,**pageargs):
         __M_writer('\n')
         __M_writer('\t<div class="create_button_div">\n\t\t<a class="button" href="/inventory/items.create/2">\n\t\t\t<paper-button class="create_button" raised>Add New Wardrobe Item</paper-button>\n\t\t</a>\n\t</div>\n')
         __M_writer('\n')
-        __M_writer('\t<table class="table table-hover table-bordered">\n\t\t<thead>\n\t\t\t<tr>\n\t\t\t\t<th>\n\t\t\t\t\t<paper-button raised class="">Select All</paper-button>\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tName\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tIs Rentable?\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tGender\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tSize\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tActions\n\t\t\t\t</th>\n\t\t\t</tr>\n\t\t</thead>\n\t\t<tbody>\n')
+        __M_writer('\t<table class="table table-hover table-bordered">\n\t\t<thead>\n\t\t\t<tr>\n\t\t\t\t<th>\n\t\t\t\t\t<paper-button raised class="">Select All</paper-button>\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tName\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tGender\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tSize\n\t\t\t\t</th>\n\t\t\t\t<th>\n\t\t\t\t\tActions\n\t\t\t\t</th>\n\t\t\t</tr>\n\t\t</thead>\n\t\t<tbody>\n')
         for item in w_items:
             __M_writer('\t\t\t\t<tr>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t<paper-checkbox></paper-checkbox>\n\t\t\t\t\t</td>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t')
-            __M_writer(str( item.name ))
-            __M_writer('\n\t\t\t\t\t</td>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t')
-            __M_writer(str( item.is_rentable ))
+            __M_writer(str( item.specs.name ))
             __M_writer('\n\t\t\t\t\t</td>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t')
             __M_writer(str( item.gender ))
             __M_writer('\n\t\t\t\t\t</td>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t')
@@ -156,24 +171,12 @@ def render_content(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
-def render_tab_title(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        def tab_title():
-            return render_tab_title(context)
-        __M_writer = context.writer()
-        __M_writer('\n  View Items\n')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
 def render_paper_elements_import(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
-        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
         def paper_elements_import():
             return render_paper_elements_import(context)
+        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
         __M_writer = context.writer()
         __M_writer('\n\t<link rel="import" href="')
         __M_writer(str( STATIC_URL ))
@@ -187,8 +190,23 @@ def render_paper_elements_import(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
+def render_extra_links(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
+        def extra_links():
+            return render_extra_links(context)
+        __M_writer = context.writer()
+        __M_writer('\n\t<link rel="stylesheet" type="text/css" href="')
+        __M_writer(str( STATIC_URL ))
+        __M_writer('base_admin/styles/View.css">\n')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
 """
 __M_BEGIN_METADATA
-{"filename": "/Users/John/DevProjects/Repositories/chef/inventory/templates/items.html", "uri": "items.html", "source_encoding": "ascii", "line_map": {"128": 157, "129": 159, "130": 161, "131": 163, "132": 165, "133": 167, "134": 173, "135": 175, "136": 199, "137": 200, "138": 205, "139": 205, "140": 208, "141": 208, "142": 211, "143": 211, "144": 214, "145": 214, "146": 217, "147": 217, "148": 220, "149": 220, "150": 226, "151": 229, "152": 231, "153": 235, "27": 0, "159": 11, "165": 11, "171": 15, "44": 7, "45": 9, "50": 13, "179": 16, "180": 16, "181": 17, "182": 17, "55": 19, "184": 18, "183": 18, "190": 184, "65": 24, "71": 24, "72": 28, "73": 32, "74": 34, "75": 38, "81": 21, "92": 21, "93": 24, "178": 15, "98": 40, "99": 42, "100": 44, "101": 47, "102": 50, "103": 65, "104": 68, "105": 70, "106": 73, "107": 91, "108": 94, "109": 97, "110": 99, "111": 101, "112": 103, "113": 105, "114": 107, "115": 113, "116": 115, "117": 133, "118": 134, "119": 139, "120": 139, "121": 142, "122": 142, "123": 145, "124": 145, "125": 148, "126": 148, "127": 154}}
+{"line_map": {"128": 101, "129": 103, "130": 105, "131": 107, "132": 109, "133": 111, "134": 117, "135": 119, "136": 134, "137": 135, "138": 140, "139": 140, "140": 143, "141": 143, "142": 146, "143": 146, "144": 152, "145": 155, "146": 157, "147": 159, "148": 161, "149": 163, "150": 165, "151": 171, "152": 173, "153": 194, "154": 195, "27": 0, "156": 200, "157": 203, "158": 203, "159": 206, "160": 206, "161": 209, "162": 209, "155": 200, "164": 212, "165": 218, "166": 221, "167": 223, "168": 227, "174": 15, "46": 7, "47": 9, "200": 21, "52": 13, "181": 15, "182": 16, "183": 16, "184": 17, "57": 19, "186": 18, "187": 18, "62": 23, "193": 21, "72": 11, "201": 22, "202": 22, "78": 11, "208": 202, "163": 212, "84": 28, "185": 17, "90": 28, "91": 32, "92": 36, "93": 38, "94": 42, "100": 25, "111": 25, "112": 28, "117": 44, "118": 46, "119": 48, "120": 51, "121": 54, "122": 69, "123": 72, "124": 74, "125": 77, "126": 95, "127": 98}, "source_encoding": "ascii", "filename": "/Users/spencerlowe/PycharmProjects/chef-master/inventory/templates/items.html", "uri": "items.html"}
 __M_END_METADATA
 """

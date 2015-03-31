@@ -95,7 +95,6 @@ class EditWItemForm(EditNWItemForm):
 ##########################################################################################
 
 @view_function
-@login_required(login_url='/homepage/login/')
 def process_request(request):
 	
 	# Define the view bag
@@ -123,7 +122,6 @@ def process_request(request):
 ##########################################################################################
 
 @view_function
-@login_required(login_url='/homepage/login/')
 def details(request):
 	
 	# Define the view bag

@@ -126,9 +126,6 @@
 					Name
 				</th>
 				<th>
-					Is Rentable?
-				</th>
-				<th>
 					Actions
 				</th>
 			</tr>
@@ -140,10 +137,7 @@
 						<paper-checkbox></paper-checkbox>
 					</td>
 					<td>
-						${ item.name }
-					</td>
-					<td>
-						${ item.is_rentable }
+						${ item.specs.name }
 					</td>
 					<td>
 						<a class="button" href="/inventory/items.edit_non/${ item.id }/">
@@ -186,9 +180,6 @@
 					Name
 				</th>
 				<th>
-					Is Rentable?
-				</th>
-				<th>
 					Gender
 				</th>
 				<th>
@@ -206,10 +197,7 @@
 						<paper-checkbox></paper-checkbox>
 					</td>
 					<td>
-						${ item.name }
-					</td>
-					<td>
-						${ item.is_rentable }
+						${ item.specs.name }
 					</td>
 					<td>
 						${ item.gender }

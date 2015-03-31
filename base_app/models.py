@@ -295,8 +295,9 @@ class Item(Inventory):
     price_per_day         = models.DecimalField(null=True, max_digits=10, decimal_places=2)
     replacement_price     = models.DecimalField(null=True, max_digits=10, decimal_places=2)
 
+
     def __str__(self):
-        return self.name
+        return self.specs.name
 
     def generate_inventory_report(self):
         "Returns the information about the products held in inventory"
