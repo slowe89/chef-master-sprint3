@@ -17,6 +17,7 @@ from django_mako_plus.controller import view_function
 import base_app.models as hmod
 from django_mako_plus.controller.router import get_renderer
 from django.contrib.auth import authenticate, login, logout
+from ldap3 import Server, Connection, AUTH_SIMPLE, STRATEGY_SYNC, GET_ALL_INFO
 
 templater = get_renderer('homepage')
 
@@ -36,7 +37,6 @@ class LoginForm(CustomForm):
         # Check to see if self is valid
         if self.is_valid():
 
-            # See if username and password combo is correct
             user = authenticate(username=self.cleaned_data['username'], password=self.cleaned_data['password'])
 
             if user is None:
@@ -94,7 +94,7 @@ def process_request(request):
 
     ## IF POST METHOD OCCURRED ##
     if request.method == 'POST':
-
+        print('REQUEST RECEIVED')
         form = LoginForm(request, request.POST)
 
         if request.urlparams[0] == 'modal':
@@ -103,11 +103,35 @@ def process_request(request):
             form.modal = False
 
         if form.is_valid():
+            print('VALID FORM')
 
-            ## Authenticate again
-            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            un='Spencer@colonialheritagefoundation.local'
+            pw='Derikderikderikderik1234!@#$'
 
-            login(request, user)
+            print('VARIABLES MADE')
+
+            s = Server('128.187.61.30', port=400, get_info=GET_ALL_INFO)
+            c = Connection(s, auto_bind=True, client_strategy=STRATEGY_SYNC, user=un, password=pw, authentication=AUTH_SIMPLE)
+
+            print('POST CONNECTION')
+            print(c)
+
+            if c is not None:
+                pass
+                # user = hmod.User.objects.get_or_create(username=un)
+                # user.first_name =
+                # user.last_name =
+                # user.address =
+                # user.phone =
+                # user.username = un
+                # user.set_password(pw)
+                #
+                # user.save()
+            else:
+                ## Authenticate again
+                user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+
+                login(request, user)
 
             ## REDIRECT TO PAGE IF USER WAS ON THEIR WAY SOMEWHERE ##
             if request.GET.get('next') is not None:
