@@ -357,6 +357,7 @@ class SerializedProduct(Inventory):
 
 class Transaction(models.Model):
     transaction_date = models.DateTimeField(default=timezone.now())
+    confirmation_id = models.CharField(null=True, max_length='500')
     date_packed      = models.DateTimeField(null=True)
     packed_by        = models.ForeignKey(User, related_name='packer', null=True)
     date_paid        = models.DateTimeField(null=True)

@@ -4,13 +4,13 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1427753162.170629
+_modified_time = 1428003341.572902
 _enable_loop = True
 _template_filename = '/Users/spencerlowe/PycharmProjects/chef-master/base_app/templates/base.htm'
 _template_uri = '/base_app/templates/base.htm'
 _source_encoding = 'ascii'
 import os, os.path, re
-_exports = ['tab_title', 'content', 'page_title', 'full_width_content', 'extra_links', 'footer_links', 'paper_elements_import', 'sidebar', 'navbar_links']
+_exports = ['full_width_content', 'page_title', 'footer_links', 'paper_elements_import', 'navbar_links', 'tab_title', 'sidebar', 'content', 'extra_links']
 
 
 from django_mako_plus.controller import static_files 
@@ -19,28 +19,28 @@ def render_body(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
         __M_locals = __M_dict_builtin(pageargs=pageargs)
-        def tab_title():
-            return render_tab_title(context._locals(__M_locals))
-        def content():
-            return render_content(context._locals(__M_locals))
-        def page_title():
-            return render_page_title(context._locals(__M_locals))
-        def paper_elements_import():
-            return render_paper_elements_import(context._locals(__M_locals))
-        self = context.get('self', UNDEFINED)
-        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
-        perms = context.get('perms', UNDEFINED)
-        def footer_links():
-            return render_footer_links(context._locals(__M_locals))
         def full_width_content():
             return render_full_width_content(context._locals(__M_locals))
-        request = context.get('request', UNDEFINED)
-        def sidebar():
-            return render_sidebar(context._locals(__M_locals))
-        def extra_links():
-            return render_extra_links(context._locals(__M_locals))
+        def page_title():
+            return render_page_title(context._locals(__M_locals))
+        def footer_links():
+            return render_footer_links(context._locals(__M_locals))
+        def paper_elements_import():
+            return render_paper_elements_import(context._locals(__M_locals))
         def navbar_links():
             return render_navbar_links(context._locals(__M_locals))
+        def tab_title():
+            return render_tab_title(context._locals(__M_locals))
+        def sidebar():
+            return render_sidebar(context._locals(__M_locals))
+        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
+        self = context.get('self', UNDEFINED)
+        request = context.get('request', UNDEFINED)
+        perms = context.get('perms', UNDEFINED)
+        def content():
+            return render_content(context._locals(__M_locals))
+        def extra_links():
+            return render_extra_links(context._locals(__M_locals))
         __M_writer = context.writer()
         __M_writer('\n\n')
         __M_writer('\n')
@@ -129,51 +129,15 @@ def render_body(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
-def render_tab_title(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        def tab_title():
-            return render_tab_title(context)
-        __M_writer = context.writer()
-        __M_writer('\n        Colonial Heritage Foundation\n      ')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
-def render_content(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        def content():
-            return render_content(context)
-        __M_writer = context.writer()
-        __M_writer('\n             If you are seeing this, something went wrong...\n          ')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
-def render_page_title(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        def page_title():
-            return render_page_title(context)
-        __M_writer = context.writer()
-        __M_writer('\n              \n          ')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
 def render_full_width_content(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
-        def content():
-            return render_content(context)
-        def page_title():
-            return render_page_title(context)
         def full_width_content():
             return render_full_width_content(context)
+        def page_title():
+            return render_page_title(context)
+        def content():
+            return render_content(context)
         def sidebar():
             return render_sidebar(context)
         __M_writer = context.writer()
@@ -206,13 +170,13 @@ def render_full_width_content(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
-def render_extra_links(context,**pageargs):
+def render_page_title(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
-        def extra_links():
-            return render_extra_links(context)
+        def page_title():
+            return render_page_title(context)
         __M_writer = context.writer()
-        __M_writer('\n      \n    ')
+        __M_writer('\n              \n          ')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -255,25 +219,13 @@ def render_paper_elements_import(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
-def render_sidebar(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        def sidebar():
-            return render_sidebar(context)
-        __M_writer = context.writer()
-        __M_writer('\n\n        ')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
 def render_navbar_links(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
-        perms = context.get('perms', UNDEFINED)
-        request = context.get('request', UNDEFINED)
         def navbar_links():
             return render_navbar_links(context)
+        request = context.get('request', UNDEFINED)
+        perms = context.get('perms', UNDEFINED)
         __M_writer = context.writer()
         __M_writer('\n              <ul class="nav navbar-nav navbar-right">\n')
         if request.user.username == '':
@@ -293,8 +245,56 @@ def render_navbar_links(context,**pageargs):
                 __M_writer('                    <li class="dropdown">\n                      <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Reports</a>\n                      <ul class="dropdown-menu dropdown-menu-left" role="menu">\n                        <li><a href="/reports/rentals.overdue">Overdue Items</a></li>\n                      </ul>\n                    </li>\n')
             __M_writer('                  <li class="dropdown">\n                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">')
             __M_writer(str( request.user.first_name ))
-            __M_writer('</a>\n                    <ul class="dropdown-menu dropdown-menu-left" role="menu">\n                      <li><a href="/account/MyAccount">My Account</a></li>\n                      <li><a id="cart_link" href="#">My Cart</a></li>\n                      <li><a href="/homepage/login.logout_user">Log Out</a></li>\n                    </ul> \n                  </li>                 \n')
+            __M_writer('</a>\n                    <ul class="dropdown-menu dropdown-menu-left" role="menu">\n                      <li><a href="/account/MyAccount">My Account</a></li>\n                      <li><a id="cart_link" href=/rentals/rentals.returns>My Rentals</a></li>\n                      <li><a id="cart_link" href="#">My Cart</a></li>\n                      <li class="divider"></li>\n                      <li><a href="/homepage/login.logout_user">Log Out</a></li>\n                    </ul> \n                  </li>                 \n')
         __M_writer('              </ul>\n            ')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
+def render_tab_title(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        def tab_title():
+            return render_tab_title(context)
+        __M_writer = context.writer()
+        __M_writer('\n        Colonial Heritage Foundation\n      ')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
+def render_sidebar(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        def sidebar():
+            return render_sidebar(context)
+        __M_writer = context.writer()
+        __M_writer('\n\n        ')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
+def render_content(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        def content():
+            return render_content(context)
+        __M_writer = context.writer()
+        __M_writer('\n             If you are seeing this, something went wrong...\n          ')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
+def render_extra_links(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        def extra_links():
+            return render_extra_links(context)
+        __M_writer = context.writer()
+        __M_writer('\n      \n    ')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -302,6 +302,6 @@ def render_navbar_links(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"uri": "/base_app/templates/base.htm", "line_map": {"258": 201, "264": 201, "270": 94, "16": 12, "18": 0, "278": 94, "279": 96, "280": 97, "281": 103, "282": 104, "283": 114, "284": 115, "285": 129, "286": 130, "287": 142, "288": 143, "289": 148, "290": 149, "291": 152, "292": 155, "293": 156, "294": 163, "295": 164, "296": 164, "297": 172, "45": 10, "46": 12, "47": 13, "51": 13, "52": 21, "57": 24, "58": 27, "59": 29, "60": 32, "61": 32, "62": 32, "63": 35, "64": 35, "65": 35, "66": 38, "67": 44, "68": 47, "69": 51, "70": 55, "71": 58, "72": 58, "73": 58, "74": 61, "79": 64, "80": 67, "85": 69, "86": 72, "87": 72, "88": 72, "89": 78, "90": 82, "91": 94, "96": 173, "97": 175, "98": 178, "99": 182, "100": 184, "101": 187, "106": 215, "107": 217, "108": 220, "109": 222, "110": 225, "115": 270, "116": 273, "117": 276, "118": 288, "119": 290, "120": 292, "121": 295, "122": 298, "123": 301, "124": 303, "125": 303, "126": 303, "132": 22, "138": 22, "144": 207, "303": 297, "150": 207, "156": 194, "162": 194, "168": 187, "180": 187, "181": 190, "182": 193, "187": 196, "188": 199, "189": 201, "194": 203, "195": 205, "196": 207, "201": 209, "202": 211, "203": 214, "209": 67, "215": 67, "221": 226, "227": 226, "228": 229, "229": 232, "230": 242, "231": 244, "232": 254, "233": 256, "234": 266, "235": 269, "241": 61, "248": 61, "249": 62, "250": 62, "251": 63, "252": 63}, "source_encoding": "ascii", "filename": "/Users/spencerlowe/PycharmProjects/chef-master/base_app/templates/base.htm"}
+{"uri": "/base_app/templates/base.htm", "filename": "/Users/spencerlowe/PycharmProjects/chef-master/base_app/templates/base.htm", "line_map": {"261": 22, "267": 203, "16": 12, "273": 203, "18": 0, "279": 209, "303": 297, "285": 209, "291": 67, "297": 67, "45": 10, "46": 12, "47": 13, "51": 13, "52": 21, "57": 24, "58": 27, "59": 29, "60": 32, "61": 32, "62": 32, "63": 35, "64": 35, "65": 35, "66": 38, "67": 44, "68": 47, "69": 51, "70": 55, "71": 58, "72": 58, "73": 58, "74": 61, "79": 64, "80": 67, "85": 69, "86": 72, "87": 72, "88": 72, "89": 78, "90": 82, "91": 94, "96": 175, "97": 177, "98": 180, "99": 184, "100": 186, "101": 189, "106": 217, "107": 219, "108": 222, "109": 224, "110": 227, "115": 272, "116": 275, "117": 278, "118": 290, "119": 292, "120": 294, "121": 297, "122": 300, "123": 303, "124": 305, "125": 305, "126": 305, "132": 189, "144": 189, "145": 192, "146": 195, "151": 198, "152": 201, "153": 203, "158": 205, "159": 207, "160": 209, "165": 211, "166": 213, "167": 216, "173": 196, "179": 196, "185": 228, "191": 228, "192": 231, "193": 234, "194": 244, "195": 246, "196": 256, "197": 258, "198": 268, "199": 271, "205": 61, "212": 61, "213": 62, "214": 62, "215": 63, "216": 63, "222": 94, "230": 94, "231": 96, "232": 97, "233": 103, "234": 104, "235": 114, "236": 115, "237": 129, "238": 130, "239": 142, "240": 143, "241": 148, "242": 149, "243": 152, "244": 155, "245": 156, "246": 163, "247": 164, "248": 164, "249": 174, "255": 22}, "source_encoding": "ascii"}
 __M_END_METADATA
 """

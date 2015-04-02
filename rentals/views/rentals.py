@@ -260,8 +260,6 @@ class LoginForm(CustomForm):
                     return HttpResponseRedirect('/rentals/rentals.returns/')
 
                 if not agentUser.groups.filter(name='Administrator').exists():
-                    print(agentUser.groups.filter(name='Administrator'))
                     raise forms.ValidationError("Must have a manager or administrator accept your return.")
-
 
         return self.cleaned_data

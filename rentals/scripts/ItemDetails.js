@@ -30,10 +30,7 @@ $(function()
 				data        :
 				{
 					id      : id,
-                    date_in : date_in,
-					date_out: date_out,
                     quantity: 30,
-
 				}
 			},
 			width           : '800px',

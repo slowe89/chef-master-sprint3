@@ -22,6 +22,7 @@ from base_app.CustomWidgets import CustomSelect, CustomRadioRenderer
 from django.contrib.auth import authenticate, login, logout
 import datetime
 from datetime import timedelta
+import requests
 
 templater = get_renderer('account')
 
@@ -174,10 +175,40 @@ class PaymentForm(CustomForm):
 
     ## Form Inputs ##
     credit_card_number = forms.CharField(required=True, max_length=100)
-    security_code = forms.IntegerField(required=True)
+    card_holder_name = forms.CharField(max_length=100)
+    card_company = forms.CharField(max_length=50)
+    cvc = forms.IntegerField(required=True)
     expiration_month = forms.CharField(required=True, max_length=2)
     expiration_year = forms.CharField(required=True, max_length=4)
     ZIP = forms.CharField(required=True)
+    confirmation = forms.CharField(required=False, max_length=500, widget=forms.HiddenInput())
+
+    def clean(self):
+        API_URL = 'http://dithers.cs.byu.edu/iscore/api/v1/charges'
+        API_KEY = 'c07bb6c7c7d8ee46e96ca5b74f2ced53'
+
+        r = requests.post(API_URL, data = {
+            'apiKey': API_KEY,
+            'currency': 'usd',
+            'amount': self.request.session['total'],
+            'type': self.cleaned_data['card_company'],
+            'number': self.cleaned_data['credit_card_number'],
+            'exp_month': self.cleaned_data['expiration_month'],
+            'exp_year': self.cleaned_data['expiration_year'],
+            'cvc': self.cleaned_data['cvc'],
+            'name': self.cleaned_data['card_holder_name'],
+            'description': 'Charge for:' + self.cleaned_data['card_holder_name'],
+        })
+
+        # parse response to a dictionary
+        resp = r.json()
+        print(self.request.session['total'])
+        if 'error' in resp:
+            raise forms.ValidationError("ERROR: " + resp['error'])
+        else:
+            self.cleaned_data['confirmation'] = resp['ID']
+
+        return self.cleaned_data
 
 ##########################################################################################
 ################################# DEFAULT ACTION #########################################
@@ -332,6 +363,7 @@ def payment(request):
     # Pass in user data to the form
     form = PaymentForm(request)
     form.submit_text = "CHARGE NOW"
+    form.confirmation = False
 
     if request.method == 'POST':
 
@@ -340,6 +372,7 @@ def payment(request):
 
         if form.is_valid():
 
+            request.session['confirmation'] = form.cleaned_data['confirmation']
             # Return user to list
             return HttpResponseRedirect('/account/ShoppingCart.confirmation/')
 
@@ -367,6 +400,7 @@ def confirmation(request):
     transaction = hmod.Transaction()
     transaction.customer = request.user
     transaction.transaction_date = datetime.datetime.now()
+    transaction.confirmation_id = request.session['confirmation']
     transaction.save()
 
     # Grab the items from the shopping cart:
