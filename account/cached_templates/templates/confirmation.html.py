@@ -4,9 +4,9 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1425797409.423593
+_modified_time = 1427835555.83931
 _enable_loop = True
-_template_filename = '/Users/John/DevProjects/Repositories/chef/account/templates/confirmation.html'
+_template_filename = '/Users/spencerlowe/PycharmProjects/chef-master/account/templates/confirmation.html'
 _template_uri = 'confirmation.html'
 _source_encoding = 'ascii'
 import os, os.path, re
@@ -66,10 +66,10 @@ def render_tab_title(context,**pageargs):
 def render_content(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
-        def content():
-            return render_content(context)
         def page_title():
             return render_page_title(context)
+        def content():
+            return render_content(context)
         __M_writer = context.writer()
         __M_writer('\n\n')
         __M_writer('\t')
@@ -106,6 +106,6 @@ def render_page_title(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"source_encoding": "ascii", "filename": "/Users/John/DevProjects/Repositories/chef/account/templates/confirmation.html", "uri": "confirmation.html", "line_map": {"66": 15, "74": 15, "75": 18, "80": 28, "81": 30, "82": 32, "83": 35, "84": 43, "85": 46, "86": 49, "87": 53, "27": 0, "93": 18, "99": 18, "100": 22, "101": 26, "38": 7, "39": 9, "107": 101, "44": 13, "54": 11, "60": 11}}
+{"source_encoding": "ascii", "uri": "confirmation.html", "line_map": {"66": 15, "74": 15, "75": 18, "80": 28, "81": 30, "82": 32, "83": 35, "84": 43, "85": 46, "86": 49, "87": 53, "27": 0, "93": 18, "99": 18, "100": 22, "101": 26, "38": 7, "39": 9, "107": 101, "44": 13, "54": 11, "60": 11}, "filename": "/Users/spencerlowe/PycharmProjects/chef-master/account/templates/confirmation.html"}
 __M_END_METADATA
 """

@@ -218,7 +218,7 @@ specs.photograph      = photo
 specs.save()
 
 inventory                  = mod.Inventory()
-inventory.quantity_on_hand = 1
+inventory.quantity_on_hand = 400
 inventory.shelf_location   = 'Corner'
 inventory.order_file       = 'Test File'
 inventory.condition        = 'Old'
@@ -278,15 +278,15 @@ product.save()
 photo              = mod.Photograph()
 photo.place_taken  = "Colonial Heritage Fsetival"
 photo.image        = "rentals/media/canon.jpg"
-photo.description  = "A canon that really fires!"
+photo.description  = "A cannon that really fires!"
 photo.photographer = user
 
 photo.save()
 
 specs                 = mod.ProductSpecification()
-specs.name            = 'Canon'
+specs.name            = 'Cannon'
 specs.price           = 2.0
-specs.description     = 'Canon lent to us for rent by the Smithsonian'
+specs.description     = 'Cannon lent to us for rent by the Smithsonian'
 specs.manufacturer    = 'Test manufacturer'
 specs.average_cost    = 2.0
 specs.sku             = '111'
@@ -443,10 +443,10 @@ for data in [
 ################################# RENTAL #####################################
 
 for data in [
-
-    {'date_out':'2000-01-01 00:00:00', 'due_date': '2001-01-01', 'date_in':'2002-01-01 00:00:00', 'item':item, 'transaction':transaction, 'amount':20.00},
-    {'date_out':'2014-12-01 00:00:00', 'due_date': '2015-12-01', 'item':rental_item, 'transaction':transaction, 'amount':20.00},
-    {'date_out':'2014-01-01 00:00:00', 'due_date': '2015-01-01', 'item':wardrobe_item, 'transaction':transaction, 'amount':20.00}
+    #rental data commented out as to not interfere with system.
+    #{'date_out':'2000-01-01 00:00:00', 'due_date': '2001-01-01', 'date_in':'2002-01-01 00:00:00', 'item':item, 'transaction':transaction, 'amount':20.00},
+    #{'date_out':'2014-12-01 00:00:00', 'due_date': '2015-12-01', 'item':rental_item, 'transaction':transaction, 'amount':20.00},
+    #{'date_out':'2014-01-01 00:00:00', 'due_date': '2015-01-01', 'item':wardrobe_item, 'transaction':transaction, 'amount':20.00}
 
 ]:
 

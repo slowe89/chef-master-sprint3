@@ -1,0 +1,90 @@
+<%doc>
+	Author: John Turner
+	Version: 1.0
+	Updated: 3/20/15
+
+	This is the page where all of the items for rent are available to see.
+</%doc>
+
+<%inherit file="/base_admin/templates/View.htm" />
+
+<%block name="tab_title">
+  	Current Rentals
+</%block>
+
+<%block name="content">
+	
+	## PAGE TITLE ##
+	<%block name="page_title">
+		<div class="row">
+			
+			## PAGE TITLE ##
+			<div class="col-md-8">
+				<h1>Current Rentals</h1>
+			</div>
+			## END PAGE TITLE ##
+
+		</div>
+	</%block>
+	## END PAGE TITLE ##
+
+	## RENTAL ITEMS ##
+		<div class="item_box">
+
+            %if len(rentalItems) == 0:
+            <p>You have no active rentals at this time.</p>
+            %else:
+            ## TABLE OF ITEMS ##
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            Date Rented
+                        </th>
+                        <th>
+                            Item
+                        </th>
+                        <th>
+                            Due Date
+                        </th>
+                        <th>
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    %for lineItem in rentalItems:
+                        <tr>
+                            <td>
+                                ${ lineItem.date_out.strftime('%m/%d/%Y') }
+                            </td>
+                            <td>
+                                ${ lineItem.item }
+                            </td>
+                            <td>
+                                ${ lineItem.due_date.strftime('%m/%d/%Y')  }
+                            </td>
+                            <td>
+                                <a class="button" href="/rentals/rentals.return_item/${ lineItem.item.id }/${ lineItem.id }">
+                                    <paper-button raised class="success_button">Return</paper-button>
+                                </a>
+                            </td>
+                        </tr>
+                    %endfor
+                </tbody>
+                </table>
+            %endif
+		</div>
+	## END RENTAL ITEMS ##
+
+	## CLEARFIX DIV ##
+	<div class="clearfix"></div>
+	## END CLEARFIX DIV ##
+
+	## SPACER DIVS ##
+	<div class="spacer"></div>
+	<div class="spacer"></div>
+	<div class="spacer"></div>
+	## END SPACER DIVS ##
+
+</%block>

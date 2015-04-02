@@ -77,9 +77,15 @@
             <div class="spacer"></div>
             <div class="spacer"></div>
 
+            %if item.quantity_on_hand > 0:
             ## ADD TO CART BUTTON ##
-			<paper-button raised data-pid="${ item.id }" class="create_button add_button">Add to Cart</paper-button>
+            <paper-button raised data-pid="${ item.id }" class="create_button add_button">Add to Cart</paper-button>
 			## END ADD TO CART BUTTON ##
+            %else:
+            <p>
+                This item is currently rented out.  It will be available ${ date[0].due_date.strftime('%m/%d/%Y') }
+            </p>
+            %endif
 
 		</div>
 		## END MIDDLE COLUMN ##

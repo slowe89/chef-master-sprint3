@@ -62,7 +62,19 @@
 			<div class="item_info">
 				<p>Price: $${ item.specs.price }</p>
 			</div>
-			## END ITEM RENTAL PRICE PER DAY ##		
+			## END ITEM RENTAL PRICE PER DAY ##
+
+            ## ITEM QUANTITY ON HAND ##
+			<div class="item_info">
+				<p>Quantity Available:
+                    %if item.quantity_on_hand > 0:
+                        ${ item.quantity_on_hand }
+                    %else:
+                        NOT CURRENTLY AVAILABLE
+                    %endif
+                </p>
+			</div>
+			## END ITEM QUANTITY ON HAND ##
 
 		</div>
 		## END MIDDLE COLUMN ##
@@ -70,6 +82,7 @@
 		## RIGHT COLUMN ##
 		<div class="col-md-3">
 
+            %if item.quantity_on_hand > 0:
 			## QUANTITY INPUT FIELD ##
 			<div class="quantity_field">
 				<paper-input-decorator class="short" floatingLabel label="Quantity">
@@ -81,6 +94,7 @@
 			## ADD TO CART BUTTON ##
 			<paper-button raised data-pid="${ item.id }" class="create_button add_button">Add to Cart</paper-button>
 			## END ADD TO CART BUTTON ##
+            %endif
 
 		</div>
 		## END RIGHT COLUMN ##

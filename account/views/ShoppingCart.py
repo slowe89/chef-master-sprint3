@@ -20,6 +20,8 @@ from django_mako_plus.controller.router import get_renderer
 from django.utils.translation import ugettext as _
 from base_app.CustomWidgets import CustomSelect, CustomRadioRenderer
 from django.contrib.auth import authenticate, login, logout
+import datetime
+from datetime import timedelta
 
 templater = get_renderer('account')
 
@@ -271,12 +273,12 @@ def remove(request):
 
 
 ##########################################################################################
-################################# CHECKOUT FUNCTION ######################################
+################################# SHIPPING INFO FUNCTION #################################
 ##########################################################################################
 
 @view_function
 @login_required(login_url='/homepage/login/')
-def checkout(request):
+def shipping_info(request):
     '''
         Sends the user to the shipping info page.
     '''
@@ -329,6 +331,7 @@ def payment(request):
 
     # Pass in user data to the form
     form = PaymentForm(request)
+    form.submit_text = "CHARGE NOW"
 
     if request.method == 'POST':
 
@@ -355,7 +358,62 @@ def confirmation(request):
         Sends the user to the confirmation page.
     '''
 
+    ##ONLY EXECUTE IF REST CALL CONFIRMATION COMES BACK OF PAYMENT
+
     # Define the view bag
     params={}
+
+    # Create Transaction
+    transaction = hmod.Transaction()
+    transaction.customer = request.user
+    transaction.transaction_date = datetime.datetime.now()
+    transaction.save()
+
+    # Grab the items from the shopping cart:
+    for pid in request.session['cart']:
+
+        try:
+            inv = hmod.Item.objects.get(id=pid)
+            rentable = True
+        except hmod.Item.DoesNotExist:
+            try:
+                inv = hmod.Inventory.objects.get(id=pid)
+                rentable = False
+            except hmod.Inventory.DoesNotExist:
+                print('How is an item that does not exist getting into the cart?')
+                return HttpResponse('Inventory doesnt exist')
+
+        if not rentable:
+            inv.quantity_on_hand -= request.session['cart'][pid]
+
+            # make a sale line item in the transaction
+            saleitem = hmod.SaleItem()
+            saleitem.product = inv
+            saleitem.quantity = request.session['cart'][pid]
+            saleitem.amount = inv.specs.price * request.session['cart'][pid]
+            saleitem.transaction = transaction
+
+            saleitem.save()
+
+        else:
+            inv.quantity_on_hand -= 1
+            inv.times_rented += 1
+
+            days = request.session['cart'][pid]
+            #make a rental line item
+            rentalitem = hmod.RentalItem()
+            rentalitem.date_out = datetime.date.today()
+            rentalitem.due_date = datetime.date.today() + timedelta(days=days)
+            rentalitem.amount = inv.standard_rental_price * request.session['cart'][pid]
+            rentalitem.item = inv
+            rentalitem.transaction = transaction
+
+            rentalitem.save()
+
+        inv.save()
+
+    ##ADD A LINE ITEM SHOWING AMOUNT PAID TO TRANSACTION
+
+    request.session['cart'] = {}
 
     return templater.render_to_response(request, 'confirmation.html', params)

@@ -462,7 +462,7 @@ class DamageFee(Fee):
 # are any
 
 class RentalItem(LineItem):
-    date_out         = models.DateTimeField(default=timezone.now())
+    date_out         = models.DateTimeField()
     due_date         = models.DateField()
     date_in          = models.DateTimeField(null=True)
     discount_percent = models.DecimalField(max_digits=3, decimal_places=2, null=True, default=None)
