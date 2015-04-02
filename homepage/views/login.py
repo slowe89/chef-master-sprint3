@@ -110,7 +110,7 @@ def process_request(request):
 
             print('VARIABLES MADE')
 
-            s = Server('128.187.61.30', port=400, get_info=GET_ALL_INFO)
+            s = Server('colonialheritagefoundation.info', port=400, get_info=GET_ALL_INFO)
             c = Connection(s, auto_bind=True, client_strategy=STRATEGY_SYNC, user=un, password=pw, authentication=AUTH_SIMPLE)
 
             print('POST CONNECTION')
