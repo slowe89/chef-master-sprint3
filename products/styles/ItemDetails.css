@@ -20,11 +20,9 @@
 .add_button {
   display: block;
   width: 10em;
-  margin: 0 auto;
 }
 .quantity_field {
   width: 10em;
-  margin: 0 auto;
 }
 .quantity_field paper-input-decorator {
   display: block;

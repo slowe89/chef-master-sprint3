@@ -4,13 +4,13 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1427673822.386526
+_modified_time = 1428090759.777595
 _enable_loop = True
 _template_filename = '/Users/spencerlowe/PycharmProjects/chef-master/events/templates/events.html'
 _template_uri = 'events.html'
 _source_encoding = 'ascii'
 import os, os.path, re
-_exports = ['paper_elements_import', 'page_title', 'extra_links', 'content', 'tab_title']
+_exports = ['content', 'extra_links', 'page_title', 'tab_title', 'paper_elements_import']
 
 
 def _mako_get_namespace(context, name):
@@ -23,22 +23,22 @@ def _mako_generate_namespaces(context):
     pass
 def _mako_inherit(template, context):
     _mako_generate_namespaces(context)
-    return runtime._inherit_from(context, '/base_admin/templates/base.htm', _template_uri)
+    return runtime._inherit_from(context, '/base_app/templates/base.htm', _template_uri)
 def render_body(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
         __M_locals = __M_dict_builtin(pageargs=pageargs)
-        def content():
-            return render_content(context._locals(__M_locals))
         def tab_title():
             return render_tab_title(context._locals(__M_locals))
         def paper_elements_import():
             return render_paper_elements_import(context._locals(__M_locals))
-        events = context.get('events', UNDEFINED)
         def extra_links():
             return render_extra_links(context._locals(__M_locals))
+        def content():
+            return render_content(context._locals(__M_locals))
         def page_title():
             return render_page_title(context._locals(__M_locals))
+        events = context.get('events', UNDEFINED)
         STATIC_URL = context.get('STATIC_URL', UNDEFINED)
         __M_writer = context.writer()
         __M_writer('\n\n')
@@ -67,64 +67,14 @@ def render_body(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
-def render_paper_elements_import(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        def paper_elements_import():
-            return render_paper_elements_import(context)
-        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
-        __M_writer = context.writer()
-        __M_writer('\n\t<link rel="import" href="')
-        __M_writer(str( STATIC_URL ))
-        __M_writer('base_app/styles/bower_components/paper-input/paper-input.html">\n\t<link rel="import" href="')
-        __M_writer(str( STATIC_URL ))
-        __M_writer('base_app/styles/bower_components/paper-button/paper-button.html">\n\t<link rel="import" href="')
-        __M_writer(str( STATIC_URL ))
-        __M_writer('base_app/styles/bower_components/paper-checkbox/paper-checkbox.html">\n')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
-def render_page_title(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        def page_title():
-            return render_page_title(context)
-        __M_writer = context.writer()
-        __M_writer('\n\t\t<div class="row">\n\t\t\t\n')
-        __M_writer('\t\t\t<div class="col-md-8">\n\t\t\t\t<h1>Scheduled Events</h1>\n\t\t\t</div>\n')
-        __M_writer('\n')
-        __M_writer('\t\t\t<div class="col-md-4">\n\t\t\t\t<div class="create_button">\n\t\t\t\t\t<a class="button" href="/events/events.create/">\n\t\t\t\t\t\t<paper-button class="create_button" raised>Schedule an Event</paper-button>\n\t\t\t\t\t</a>\n\t\t\t\t</div>\n\t\t\t\t\n\t\t\t</div>\n')
-        __M_writer('\n\t\t</div>\n\t')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
-def render_extra_links(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
-        def extra_links():
-            return render_extra_links(context)
-        __M_writer = context.writer()
-        __M_writer('\n\t<link rel="stylesheet" type="text/css" href="')
-        __M_writer(str( STATIC_URL ))
-        __M_writer('base_admin/styles/View.css">\n')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
 def render_content(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
-        events = context.get('events', UNDEFINED)
         def content():
             return render_content(context)
         def page_title():
             return render_page_title(context)
+        events = context.get('events', UNDEFINED)
         __M_writer = context.writer()
         __M_writer('\n\t\n')
         __M_writer('\t')
@@ -154,7 +104,7 @@ def render_content(context,**pageargs):
             __M_writer(str( event.start_date.strftime("%B %d, %Y") ))
             __M_writer('\n\t\t\t\t\t</td>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t')
             __M_writer(str( event.venue.name ))
-            __M_writer('\n\t\t\t\t\t</td>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t<a class="button" href="/events/areas/')
+            __M_writer('\n\t\t\t\t\t</td>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t<a class="button" href="/events/areas.view/')
             __M_writer(str( event.id ))
             __M_writer('">\n\t\t\t\t\t\t\t<paper-button raised class="success_button">Areas</paper-button>\n\t\t\t\t\t\t</a>\n\t\t\t\t\t\t<a class="button" href="/events/venues.edit/')
             __M_writer(str( event.venue.id ))
@@ -172,6 +122,37 @@ def render_content(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
+def render_extra_links(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        def extra_links():
+            return render_extra_links(context)
+        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
+        __M_writer = context.writer()
+        __M_writer('\n\t<link rel="stylesheet" type="text/css" href="')
+        __M_writer(str( STATIC_URL ))
+        __M_writer('base_admin/styles/View.css">\n')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
+def render_page_title(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        def page_title():
+            return render_page_title(context)
+        __M_writer = context.writer()
+        __M_writer('\n\t\t<div class="row">\n\t\t\t\n')
+        __M_writer('\t\t\t<div class="col-md-8">\n\t\t\t\t<h1>Scheduled Events</h1>\n\t\t\t</div>\n')
+        __M_writer('\n')
+        __M_writer('\t\t\t<div class="col-md-4">\n\t\t\t\t<div class="create_button">\n\t\t\t\t\t<a class="button" href="/events/events.create/">\n\t\t\t\t\t\t<paper-button class="create_button" raised>Schedule an Event</paper-button>\n\t\t\t\t\t</a>\n\t\t\t\t</div>\n\t\t\t\t\n\t\t\t</div>\n')
+        __M_writer('\n\t\t</div>\n\t')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
 def render_tab_title(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
@@ -184,8 +165,27 @@ def render_tab_title(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
+def render_paper_elements_import(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
+        def paper_elements_import():
+            return render_paper_elements_import(context)
+        __M_writer = context.writer()
+        __M_writer('\n\t<link rel="import" href="')
+        __M_writer(str( STATIC_URL ))
+        __M_writer('base_app/styles/bower_components/paper-input/paper-input.html">\n\t<link rel="import" href="')
+        __M_writer(str( STATIC_URL ))
+        __M_writer('base_app/styles/bower_components/paper-button/paper-button.html">\n\t<link rel="import" href="')
+        __M_writer(str( STATIC_URL ))
+        __M_writer('base_app/styles/bower_components/paper-checkbox/paper-checkbox.html">\n')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
 """
 __M_BEGIN_METADATA
-{"filename": "/Users/spencerlowe/PycharmProjects/chef-master/events/templates/events.html", "line_map": {"129": 25, "130": 28, "135": 49, "136": 51, "137": 53, "138": 56, "139": 59, "140": 74, "141": 77, "142": 79, "143": 82, "144": 100, "145": 103, "146": 106, "147": 108, "148": 110, "149": 112, "150": 133, "151": 134, "152": 139, "153": 139, "154": 142, "27": 0, "156": 145, "157": 145, "158": 148, "159": 148, "160": 151, "161": 151, "162": 154, "155": 142, "164": 157, "163": 154, "166": 163, "167": 166, "168": 168, "169": 172, "44": 7, "45": 9, "175": 11, "50": 13, "181": 11, "55": 19, "187": 181, "60": 23, "70": 15, "77": 15, "78": 16, "79": 16, "80": 17, "81": 17, "82": 18, "83": 18, "89": 28, "95": 28, "96": 32, "97": 36, "98": 38, "99": 47, "165": 157, "105": 21, "112": 21, "113": 22, "114": 22, "120": 25}, "source_encoding": "ascii", "uri": "events.html"}
+{"source_encoding": "ascii", "filename": "/Users/spencerlowe/PycharmProjects/chef-master/events/templates/events.html", "line_map": {"132": 21, "133": 22, "134": 22, "140": 28, "146": 28, "147": 32, "148": 36, "149": 38, "150": 47, "27": 0, "156": 11, "162": 11, "168": 15, "44": 7, "45": 9, "175": 15, "176": 16, "177": 16, "50": 13, "179": 17, "180": 18, "181": 18, "55": 19, "187": 181, "60": 23, "70": 25, "79": 25, "80": 28, "85": 49, "86": 51, "87": 53, "88": 56, "89": 59, "90": 74, "91": 77, "92": 79, "93": 82, "94": 100, "95": 103, "96": 106, "97": 108, "98": 110, "99": 112, "100": 133, "101": 134, "102": 139, "103": 139, "104": 142, "105": 142, "106": 145, "107": 145, "108": 148, "109": 148, "110": 151, "111": 151, "112": 154, "113": 154, "114": 157, "115": 157, "116": 163, "117": 166, "118": 168, "119": 172, "125": 21, "178": 17}, "uri": "events.html"}
 __M_END_METADATA
 """

@@ -17,8 +17,7 @@ $(function()
 	$( '.add_button' ).click(function()
 	{
 		var id      = $( this ).attr('data-pid')
-		var date_in= $( '#date_in' ).val()
-        var date_out= $( '#date_out' ).val()
+		var quantity= $( '#quantity' ).val()
 
 		// Call the modal with the shopping cart, passing
 		// in the data with the ID and quantity
@@ -30,7 +29,7 @@ $(function()
 				data        :
 				{
 					id      : id,
-                    quantity: 30,
+                    quantity: quantity,
 				}
 			},
 			width           : '800px',

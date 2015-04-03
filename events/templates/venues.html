@@ -6,7 +6,7 @@
 	This is the page through which administrators can view all venues in the system. 
 </%doc>
 
-<%inherit file="/base_admin/templates/base.htm" />
+<%inherit file="/base_app/templates/base.htm" />
 
 <%block name="tab_title">
   Venues
@@ -142,13 +142,13 @@
 						${ venue.name }
 					</td>
 					<td>
-						${ venue.address }
+						${ venue.address.address1 } ${ venue.address.address2 }
 					</td>
 					<td>
-						${ venue.city }
+						${ venue.address.city }
 					</td>
 					<td>
-						${ venue.state }
+						${ venue.address.state }
 					</td>
 					<td>
 						## <paper-button raised class="success_button">View</paper-button> ## This view functionality isn't needed now

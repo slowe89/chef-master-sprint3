@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1428008315.249705
+_modified_time = 1428096831.911343
 _enable_loop = True
 _template_filename = '/Users/spencerlowe/PycharmProjects/chef-master/account/templates/ShoppingCart.html'
 _template_uri = 'ShoppingCart.html'
@@ -28,12 +28,12 @@ def render_body(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
         __M_locals = __M_dict_builtin(pageargs=pageargs)
-        str = context.get('str', UNDEFINED)
+        request = context.get('request', UNDEFINED)
         items = context.get('items', UNDEFINED)
+        str = context.get('str', UNDEFINED)
+        int = context.get('int', UNDEFINED)
         def content():
             return render_content(context._locals(__M_locals))
-        int = context.get('int', UNDEFINED)
-        request = context.get('request', UNDEFINED)
         __M_writer = context.writer()
         __M_writer('\n\n')
         __M_writer('\n\n')
@@ -49,17 +49,17 @@ def render_body(context,**pageargs):
 def render_content(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
-        str = context.get('str', UNDEFINED)
+        request = context.get('request', UNDEFINED)
         items = context.get('items', UNDEFINED)
+        str = context.get('str', UNDEFINED)
+        int = context.get('int', UNDEFINED)
         def content():
             return render_content(context)
-        int = context.get('int', UNDEFINED)
-        request = context.get('request', UNDEFINED)
         __M_writer = context.writer()
         __M_writer('\n\n')
         __M_writer('\t<div class="full-width-container">\n\t\t\n')
         __M_writer('\t\t<div class="row">\n\t\t\t\n')
-        __M_writer('\t\t\t<div class="table-responsive">\n\t\t\t\t<table class="table table-hover table-bordered">\n\t\t\t\t\t<thead>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<th>\n\t\t\t\t\t\t\t\tProduct\n\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t<th class="quantity">\n\t\t\t\t\t\t\t\tQuantity\t\n\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t<th class="price">\n\t\t\t\t\t\t\t\tPrice\n\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t<th>\n\t\t\t\t\t\t\t\tActions\t\n\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</thead>\n\t\t\t\t\t<tbody>\n\t\t\t\t\t\t')
+        __M_writer('\t\t\t<div class="table-responsive">\n\t\t\t\t<table class="table table-hover table-bordered">\n\t\t\t\t\t<thead>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<th>\n\t\t\t\t\t\t\t\tProduct/Rental\n\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t<th class="quantity">\n\t\t\t\t\t\t\t\tQuantity/Duration\n\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t<th class="price">\n\t\t\t\t\t\t\t\tPrice\n\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t<th>\n\t\t\t\t\t\t\t\tActions\t\n\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</thead>\n\t\t\t\t\t<tbody>\n\t\t\t\t\t\t')
         total = 0 
         
         __M_writer('\n')
@@ -94,6 +94,6 @@ def render_content(context,**pageargs):
 
 """
 __M_BEGIN_METADATA
-{"line_map": {"65": 39, "66": 40, "67": 41, "68": 43, "69": 43, "70": 46, "71": 46, "72": 49, "73": 49, "74": 52, "75": 52, "76": 55, "78": 55, "79": 57, "80": 65, "81": 65, "82": 71, "84": 71, "85": 73, "86": 76, "87": 78, "88": 90, "89": 93, "27": 0, "95": 89, "38": 7, "39": 9, "49": 11, "59": 11, "60": 14, "61": 17, "62": 20, "63": 39}, "uri": "ShoppingCart.html", "filename": "/Users/spencerlowe/PycharmProjects/chef-master/account/templates/ShoppingCart.html", "source_encoding": "ascii"}
+{"source_encoding": "ascii", "filename": "/Users/spencerlowe/PycharmProjects/chef-master/account/templates/ShoppingCart.html", "uri": "ShoppingCart.html", "line_map": {"65": 39, "66": 40, "67": 41, "68": 43, "69": 43, "70": 46, "71": 46, "72": 49, "73": 49, "74": 52, "75": 52, "76": 55, "78": 55, "79": 57, "80": 65, "81": 65, "82": 71, "84": 71, "85": 73, "86": 76, "87": 78, "88": 90, "89": 93, "27": 0, "95": 89, "38": 7, "39": 9, "49": 11, "59": 11, "60": 14, "61": 17, "62": 20, "63": 39}}
 __M_END_METADATA
 """

@@ -1106,13 +1106,15 @@
 																					</tr>
 																				</thead>
 																				<tbody>
-																					%for item in products:
+																					%if len(products) > 0
+                                                                                    %for item in products:
 																						<tr>
 																							<td style="text-align:center;font-weight: normal;color: #000;font-family: &quot;Open Sans&quot;,sans-serif !important;font-size: 14px;">${ item.product.specs.name }</td>
 																							<td style="text-align:center;font-weight: normal;color: #000;font-family: &quot;Open Sans&quot;,sans-serif !important;font-size: 14px;">${ item.quantity }</td>
 																							<td style="text-align:center;font-weight: normal;color: #000;font-family: &quot;Open Sans&quot;,sans-serif !important;font-size: 14px;">$${ item.amount }</td>
 																						</tr>
 																					%endfor
+                                                                                    %endif
                                                                                     <tr><td><br></td><td><br></td><td><br></td></tr>
 																					<tr>
 																						<th style="text-align:center;color: #000;font-family: &quot;Open Sans&quot;,sans-serif !important;font-size: 14px;">Rental</th>
@@ -1121,6 +1123,7 @@
 																					</tr>
 																				</thead>
 																				<tbody>
+                                                                                    %if len(rentals) > 0
 																					%for item in rentals:
 																						<tr>
 																							<td style="text-align:center;font-weight: normal;color: #000;font-family: &quot;Open Sans&quot;,sans-serif !important;font-size: 14px;">${ item.item.specs.name }</td>
@@ -1128,6 +1131,7 @@
 																							<td style="text-align:center;font-weight: normal;color: #000;font-family: &quot;Open Sans&quot;,sans-serif !important;font-size: 14px;">$${ item.amount }</td>
 																						</tr>
 																					%endfor
+                                                                                    %endif
 																				</tbody>
 																			</table>
 																			<h3 style="Margin-top: 10px;font-weight: normal;color: #58595b;font-family: Bitter,Georgia,serif !important;font-size: 16px;Margin-bottom: 12px;line-height: 36px">Total Price: ${ request.session['total'] }</h3>

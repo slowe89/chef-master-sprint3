@@ -54,41 +54,42 @@
 
 			## ITEM RENTAL PRICE PER DAY ##
 			<div class="item_info">
-				<p>Standard Rental Price: $${ item.standard_rental_price }</p>
-			</div>
-			## END ITEM RENTAL PRICE PER DAY ##
-
-			<div class="spacer"></div>
-
-			## ITEM RENTAL PRICE PER DAY ##
-			<div class="item_info">
-				<p>Price Per Day: $${ item.price_per_day }</p>
+				<p>Standard Rental Price Per Day: $${ item.standard_rental_price }</p>
 			</div>
 			## END ITEM RENTAL PRICE PER DAY ##
 
             <div class="spacer"></div>
-
-            ## STANDARD RENTAL LENGTH ##
-			<div class="item_info">
-				<p>Rental length: 30 Days</p>
-			</div>
-			## STANDARD RENTAL LENGTH ##
-
             <div class="spacer"></div>
-            <div class="spacer"></div>
-
-            %if item.quantity_on_hand > 0:
-            ## ADD TO CART BUTTON ##
-            <paper-button raised data-pid="${ item.id }" class="create_button add_button">Add to Cart</paper-button>
-			## END ADD TO CART BUTTON ##
-            %else:
-            <p>
-                This item is currently rented out.  It will be available ${ date[0].due_date.strftime('%m/%d/%Y') }
-            </p>
-            %endif
 
 		</div>
 		## END MIDDLE COLUMN ##
+
+            %if item.quantity_on_hand > 0:
+                ## RIGHT COLUMN ##
+                <div class="col-md-3">
+
+                    %if item.quantity_on_hand > 0:
+                    ## QUANTITY INPUT FIELD ##
+                    <div class="quantity_field">
+                        <paper-input-decorator class="short" floatingLabel label="Rental Duration">
+                            <input is="core-input" id="quantity" value="1"/>
+                        </paper-input-decorator>
+                    </div>
+                    ## END QUANTITY INPUT FIELD ##
+
+
+                    ## ADD TO CART BUTTON ##
+                    <paper-button raised data-pid="${ item.id }" class="create_button add_button">Add to Cart</paper-button>
+                    ## END ADD TO CART BUTTON ##
+                    %endif
+
+                </div>
+                ## END RIGHT COLUMN ##
+            %else:
+            <p>
+                <b>This item is currently rented out.  It will be available ${ date[0].due_date.strftime('%m/%d/%Y') }</b>
+            </p>
+            %endif
 
 	</div>
 	## END ROW ##

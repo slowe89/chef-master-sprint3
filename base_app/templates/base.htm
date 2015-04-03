@@ -111,21 +111,6 @@
                   </li>
                   <li><a href="/products/products/">Products</a></li>
                   <li><a href="/rentals/rentals/">Rentals</a></li>
-                  %if perms['base_app']['add_inventory'] or perms['base_app']['change_inventory'] or perms['base_app']['delete_inventory']:
-                    <li class="dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Inventory</a>
-                      <ul class="dropdown-menu dropdown-menu-left" role="menu">
-                        <li role="presentation" class="dropdown-header">Rentals</li>
-                        <li><a href="/inventory/items.create/1">Add Non-Wardrobe Item</a></li>
-                        <li><a href="/inventory/items.create/2">Add Wardrobe Item</a></li>
-                        <li><a href="/inventory/items/">View Items</a></li>
-                        <li><a href="/inventory/returns/">Process Return</a></li>
-                        <li class="divider"></li>
-                        <li role="presentation" class="dropdown-header">Products</li>
-                        <li><a href="/inventory/products/">View Products</a></li>
-                      </ul>
-                    </li>
-                  %endif
                   %if perms['base_app']['add_event'] or perms['base_app']['change_event'] or perms['base_app']['delete_event']:
                     <li class="dropdown">
                       <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Events</a>

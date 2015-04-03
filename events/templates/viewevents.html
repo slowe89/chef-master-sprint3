@@ -6,7 +6,7 @@
 	This is the page through which administrators can view all events in the system. 
 </%doc>
 
-<%inherit file="/base_admin/templates/base.htm" />
+<%inherit file="/base_app/templates/base.htm" />
 
 <%block name="tab_title">
   Scheduled Events
@@ -87,7 +87,7 @@
 						<a class="button" href="/events/areas.view/${ event.id }">
 							<paper-button raised class="success_button">Areas</paper-button>
 						</a>
-						<a class="button" href="/events/venues.edit/${ event.venue.id }">
+						<a class="button" href="/events/events.details/${ event.venue.id }">
 							<paper-button raised class="success_button">Venue Info</paper-button>
 						</a>
 					</td>

@@ -4,13 +4,13 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1427838137.259519
+_modified_time = 1428097504.61165
 _enable_loop = True
 _template_filename = '/Users/spencerlowe/PycharmProjects/chef-master/products/templates/ItemDetails.html'
 _template_uri = 'ItemDetails.html'
 _source_encoding = 'ascii'
 import os, os.path, re
-_exports = ['content', 'tab_title', 'page_title']
+_exports = ['page_title', 'tab_title', 'content']
 
 
 def _mako_get_namespace(context, name):
@@ -28,14 +28,14 @@ def render_body(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
         __M_locals = __M_dict_builtin(pageargs=pageargs)
-        def content():
-            return render_content(context._locals(__M_locals))
         item = context.get('item', UNDEFINED)
-        def tab_title():
-            return render_tab_title(context._locals(__M_locals))
-        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
         def page_title():
             return render_page_title(context._locals(__M_locals))
+        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
+        def tab_title():
+            return render_tab_title(context._locals(__M_locals))
+        def content():
+            return render_content(context._locals(__M_locals))
         __M_writer = context.writer()
         __M_writer('\n\n')
         __M_writer('\n\n')
@@ -53,15 +53,49 @@ def render_body(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
+def render_page_title(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        item = context.get('item', UNDEFINED)
+        def page_title():
+            return render_page_title(context)
+        __M_writer = context.writer()
+        __M_writer('\n\t\t<div class="row">\n\t\t\t\n')
+        __M_writer('\t\t\t<div class="col-md-8">\n\t\t\t\t<h1>')
+        __M_writer(str( item.specs.name ))
+        __M_writer('</h1>\n\t\t\t</div>\n')
+        __M_writer('\n')
+        __M_writer('\t\t\t<div class="col-md-4">\n\t\t\t\t\n\t\t\t</div>\n')
+        __M_writer('\n\t\t</div>\n\t')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
+def render_tab_title(context,**pageargs):
+    __M_caller = context.caller_stack._push_frame()
+    try:
+        item = context.get('item', UNDEFINED)
+        def tab_title():
+            return render_tab_title(context)
+        __M_writer = context.writer()
+        __M_writer('\n  ')
+        __M_writer(str( item.specs.name ))
+        __M_writer('\n')
+        return ''
+    finally:
+        context.caller_stack._pop_frame()
+
+
 def render_content(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
-        def content():
-            return render_content(context)
         item = context.get('item', UNDEFINED)
-        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
         def page_title():
             return render_page_title(context)
+        STATIC_URL = context.get('STATIC_URL', UNDEFINED)
+        def content():
+            return render_content(context)
         __M_writer = context.writer()
         __M_writer('\n\n')
         __M_writer('\t')
@@ -115,42 +149,8 @@ def render_content(context,**pageargs):
         context.caller_stack._pop_frame()
 
 
-def render_tab_title(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        item = context.get('item', UNDEFINED)
-        def tab_title():
-            return render_tab_title(context)
-        __M_writer = context.writer()
-        __M_writer('\n  ')
-        __M_writer(str( item.specs.name ))
-        __M_writer('\n')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
-def render_page_title(context,**pageargs):
-    __M_caller = context.caller_stack._push_frame()
-    try:
-        item = context.get('item', UNDEFINED)
-        def page_title():
-            return render_page_title(context)
-        __M_writer = context.writer()
-        __M_writer('\n\t\t<div class="row">\n\t\t\t\n')
-        __M_writer('\t\t\t<div class="col-md-8">\n\t\t\t\t<h1>')
-        __M_writer(str( item.specs.name ))
-        __M_writer('</h1>\n\t\t\t</div>\n')
-        __M_writer('\n')
-        __M_writer('\t\t\t<div class="col-md-4">\n\t\t\t\t\n\t\t\t</div>\n')
-        __M_writer('\n\t\t</div>\n\t')
-        return ''
-    finally:
-        context.caller_stack._pop_frame()
-
-
 """
 __M_BEGIN_METADATA
-{"source_encoding": "ascii", "line_map": {"133": 18, "140": 18, "141": 22, "142": 23, "143": 23, "144": 26, "145": 28, "146": 32, "152": 146, "27": 0, "40": 7, "41": 9, "46": 13, "56": 15, "66": 15, "67": 18, "72": 34, "73": 36, "74": 38, "75": 41, "76": 44, "77": 44, "78": 44, "79": 44, "80": 46, "81": 49, "82": 51, "83": 54, "84": 55, "85": 55, "86": 58, "87": 62, "88": 63, "89": 63, "90": 66, "91": 68, "92": 70, "93": 71, "94": 71, "95": 71, "96": 72, "97": 73, "98": 75, "99": 78, "100": 81, "101": 83, "102": 85, "103": 87, "104": 93, "105": 95, "106": 95, "107": 95, "108": 98, "109": 101, "110": 104, "111": 107, "112": 111, "118": 11, "125": 11, "126": 12, "127": 12}, "filename": "/Users/spencerlowe/PycharmProjects/chef-master/products/templates/ItemDetails.html", "uri": "ItemDetails.html"}
+{"source_encoding": "ascii", "filename": "/Users/spencerlowe/PycharmProjects/chef-master/products/templates/ItemDetails.html", "uri": "ItemDetails.html", "line_map": {"128": 71, "129": 71, "130": 72, "131": 73, "132": 75, "133": 78, "134": 81, "135": 83, "136": 85, "137": 87, "138": 93, "139": 95, "140": 95, "141": 95, "142": 98, "143": 101, "144": 104, "145": 107, "146": 111, "152": 146, "27": 0, "40": 7, "41": 9, "46": 13, "56": 18, "63": 18, "64": 22, "65": 23, "66": 23, "67": 26, "68": 28, "69": 32, "75": 11, "82": 11, "83": 12, "84": 12, "90": 15, "100": 15, "101": 18, "106": 34, "107": 36, "108": 38, "109": 41, "110": 44, "111": 44, "112": 44, "113": 44, "114": 46, "115": 49, "116": 51, "117": 54, "118": 55, "119": 55, "120": 58, "121": 62, "122": 63, "123": 63, "124": 66, "125": 68, "126": 70, "127": 71}}
 __M_END_METADATA
 """
