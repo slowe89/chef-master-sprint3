@@ -230,7 +230,7 @@ sale_item = mod.ExpectedSaleItem()
 
 sale_item.product_specification = specs
 sale_item.high_price = '25.00'
-sale_item.low_price = '12.00'
+sale_item.low_price = '1.00'
 sale_item.area = area
 
 sale_item.save()
@@ -285,10 +285,10 @@ photo.save()
 
 specs                 = mod.ProductSpecification()
 specs.name            = 'Cannon'
-specs.price           = 190.00
+specs.price           = 9.99
 specs.description     = 'Cannon lent to us for rent by the Smithsonian'
 specs.manufacturer    = 'Test manufacturer'
-specs.average_cost    = 190.00
+specs.average_cost    = 9.99
 specs.sku             = '111'
 specs.order_form_name = 'Test order form'
 specs.production_time = 'Test production time'
@@ -305,8 +305,8 @@ rental_item.specs           = specs
 
 rental_item.standard_rental_price= 9.99
 rental_item.times_rented         = 2
-rental_item.price_per_day        = 2.00
-rental_item.replacement_price    = 2.00
+rental_item.price_per_day        = 9.99
+rental_item.replacement_price    = 190.00
 
 rental_item.save()
 
@@ -345,10 +345,10 @@ photo.save()
 
 specs                 = mod.ProductSpecification()
 specs.name            = 'Jacket'
-specs.price           = 28.90
+specs.price           = 4.90
 specs.description     = "Man's jacket from the 1600's"
 specs.manufacturer    = 'H&M'
-specs.average_cost    = 28.90
+specs.average_cost    = 4.90
 specs.sku             = '111'
 specs.order_form_name = 'Test order form'
 specs.production_time = 'Test production time'
@@ -363,9 +363,9 @@ wardrobe_item.order_file      = 'Test File'
 wardrobe_item.condition       = 'Newest'
 wardrobe_item.specs           = specs
 
-wardrobe_item.standard_rental_price= 9.88
+wardrobe_item.standard_rental_price= 4.90
 wardrobe_item.times_rented         = 2
-wardrobe_item.price_per_day        = 5.99
+wardrobe_item.price_per_day        = 4.90
 wardrobe_item.replacement_price    = 27.99
 
 wardrobe_item.size         = 38
@@ -389,10 +389,10 @@ photo.save()
 
 specs                 = mod.ProductSpecification()
 specs.name            = 'Shirt'
-specs.price           = 25.00
+specs.price           = 2.98
 specs.description     = "Man's dress shirt from the 1600's"
 specs.manufacturer    = 'Banana Republic'
-specs.average_cost    = 25.00
+specs.average_cost    = 2.98
 specs.sku             = '111'
 specs.order_form_name = 'Test order form'
 specs.production_time = 'Test production time'
@@ -407,9 +407,9 @@ wardrobe_item.order_file      = 'Test File'
 wardrobe_item.condition       = 'Newest'
 wardrobe_item.specs           = specs
 
-wardrobe_item.standard_rental_price= 5.88
+wardrobe_item.standard_rental_price= 2.98
 wardrobe_item.times_rented         = 3
-wardrobe_item.price_per_day        = 5.88
+wardrobe_item.price_per_day        = 2.98
 wardrobe_item.replacement_price    = 32.50
 
 wardrobe_item.size         = 38
