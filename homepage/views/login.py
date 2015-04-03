@@ -35,12 +35,13 @@ class LoginForm(CustomForm):
     def clean(self):
 
         # Check to see if self is valid
-        if self.is_valid():
+        #if self.is_valid():
 
-            user = authenticate(username=self.cleaned_data['username'], password=self.cleaned_data['password'])
 
-            if user is None:
-                raise forms.ValidationError("Incorrect Username and/or Password")
+            #user = authenticate(username=self.cleaned_data['username'], password=self.cleaned_data['password'])
+
+            #if user is None:
+                #raise forms.ValidationError("Incorrect Username and/or Password")
 
         return self.cleaned_data
 
@@ -94,7 +95,7 @@ def process_request(request):
 
     ## IF POST METHOD OCCURRED ##
     if request.method == 'POST':
-        print('REQUEST RECEIVED')
+
         form = LoginForm(request, request.POST)
 
         if request.urlparams[0] == 'modal':
@@ -103,30 +104,37 @@ def process_request(request):
             form.modal = False
 
         if form.is_valid():
-            print('VALID FORM')
 
-            un='Spencer@colonialheritagefoundation.local'
-            pw='Derikderikderikderik1234!@#$'
-
-            print('VARIABLES MADE')
+            un=form.cleaned_data['username']
+            pw=form.cleaned_data['password']
 
             s = Server('colonialheritagefoundation.info', port=400, get_info=GET_ALL_INFO)
-            c = Connection(s, auto_bind=True, client_strategy=STRATEGY_SYNC, user=un, password=pw, authentication=AUTH_SIMPLE)
-
-            print('POST CONNECTION')
-            print(c)
+            c = Connection(s, auto_bind=True, client_strategy=STRATEGY_SYNC, user=un+'@colonialheritagefoundation.local', password=pw, authentication=AUTH_SIMPLE)
+            #print(c.search('ou=users,dc=colonialheritagefoundation, dc=local', ))
 
             if c is not None:
-                pass
-                # user = hmod.User.objects.get_or_create(username=un)
-                # user.first_name =
-                # user.last_name =
-                # user.address =
-                # user.phone =
-                # user.username = un
-                # user.set_password(pw)
-                #
-                # user.save()
+                try:
+                    user = hmod.User.objects.get(username=un)
+                except hmod.User.DoesNotExist:
+                    user = hmod.User()
+                    user.first_name = un
+                    user.last_name = ''
+                    user.phone = ''
+                    user.username = un
+                    user.set_password(pw)
+
+                    user.save()
+
+                try:
+                    adminGroup = hmod.Group.objects.get(name='Administrator')
+                except hmod.Group.DoesNotExist:
+                    print("Who the heck deleted the administrator group?")
+
+                adminGroup.user_set.add(user)
+
+                user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+
+                login(request, user)
             else:
                 ## Authenticate again
                 user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
