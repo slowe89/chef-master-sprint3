@@ -34,14 +34,12 @@ class LoginForm(CustomForm):
 
     def clean(self):
 
-        # Check to see if self is valid
-        #if self.is_valid():
-
-
-            #user = authenticate(username=self.cleaned_data['username'], password=self.cleaned_data['password'])
-
-            #if user is None:
-                #raise forms.ValidationError("Incorrect Username and/or Password")
+        # if self.cleaned_data['secondTry'] is True:
+        #
+        #     user = authenticate(username=self.cleaned_data['username'], password=self.cleaned_data['password'])
+        #
+        #     if user is None:
+        #         raise forms.ValidationError("Incorrect Username and/or Password")
 
         return self.cleaned_data
 
@@ -105,13 +103,19 @@ def process_request(request):
 
         if form.is_valid():
 
+            ## Grab your username and password just to save typing out cleaned data multiple times ##
             un=form.cleaned_data['username']
             pw=form.cleaned_data['password']
 
+            ##  Define the server and then try the connection, catch any exceptions and set c to anything ##
             s = Server('colonialheritagefoundation.info', port=400, get_info=GET_ALL_INFO)
-            c = Connection(s, auto_bind=True, client_strategy=STRATEGY_SYNC, user=un+'@colonialheritagefoundation.local', password=pw, authentication=AUTH_SIMPLE)
+            try:
+                c = Connection(s, auto_bind=True, client_strategy=STRATEGY_SYNC, user=un+'@colonialheritagefoundation.local', password=pw, authentication=AUTH_SIMPLE)
+            except:
+                c = None
             #print(c.search('ou=users,dc=colonialheritagefoundation, dc=local', ))
 
+            #
             if c is not None:
                 try:
                     user = hmod.User.objects.get(username=un)
@@ -136,7 +140,7 @@ def process_request(request):
 
                 login(request, user)
             else:
-                ## Authenticate again
+                ## Authenticate again ##
                 user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
 
                 login(request, user)

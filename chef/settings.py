@@ -31,6 +31,12 @@ AUTH_USER_MODEL = 'base_app.User'
 
 # Application definition
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'chfoundationautoemail@gmail.com'
+EMAIL_HOST_PASSWORD = 'Derikderikderikderik1234!@#$'
+EMAIL_USE_TLS = True
+
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,6 +45,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_mako_plus.controller',
+    'password_reset',
     'base_app',
     'base_admin',
     'homepage',
@@ -94,6 +101,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+##PASSWORD RESET
+LOGIN_URL = '/'
+PASSWORD_RESET_TIMEOUT_DAYS=1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/

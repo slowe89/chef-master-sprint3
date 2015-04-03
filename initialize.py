@@ -73,7 +73,7 @@ address.state   = 'UT'
 address.ZIP     = '84606'
 address.save() 
 
-user           = mod.User.objects.create_superuser( username='admin', email='test@fake.com', password='password' )
+user           = mod.User.objects.create_superuser( username='admin', email='slowe89@me.com', password='password' )
 user.first_name= 'Spencer'
 user.last_name= 'Lowe'
 user.phone= '7073303952'
@@ -133,7 +133,7 @@ address2.save()
 
 # Add a couple of guests
 for data in [
-    {'first_name':'Joseph', 'last_name':'Townson', 'email':'fake@fake.com', 'address':address, 'phone':'7134088245', 'security_question':'What is your name?', 'security_answer':'Joseph', 'username':'jobro1', },
+    {'first_name':'Joseph', 'last_name':'Townson', 'email':'easybuttonsales@gmail.com', 'address':address, 'phone':'7134088245', 'security_question':'What is your name?', 'security_answer':'Joseph', 'username':'jobro1', },
     {'first_name':'Sarah', 'last_name':'Townson', 'email':'fake@fake.com', 'address':address, 'phone':'7134088245', 'security_question':'What is your name?', 'security_answer':'Joseph', 'username':'sarahbro1', }
 ]:
 
