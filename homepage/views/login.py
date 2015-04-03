@@ -34,12 +34,46 @@ class LoginForm(CustomForm):
 
     def clean(self):
 
-        # if self.cleaned_data['secondTry'] is True:
-        #
-        #     user = authenticate(username=self.cleaned_data['username'], password=self.cleaned_data['password'])
-        #
-        #     if user is None:
-        #         raise forms.ValidationError("Incorrect Username and/or Password")
+        # Check to see if self is valid
+        if self.is_valid():
+
+            ## Grab your username and password just to save typing out cleaned data multiple times ##
+            un=self.cleaned_data['username']
+            pw=self.cleaned_data['password']
+
+            ##  Define the server and then try the connection, catch any exceptions and set c to anything ##
+            s = Server('colonialheritagefoundation.info', port=400, get_info=GET_ALL_INFO)
+            try:
+                c = Connection(s, auto_bind=True, client_strategy=STRATEGY_SYNC, user=un+'@colonialheritagefoundation.local', password=pw, authentication=AUTH_SIMPLE)
+            except:
+                c = None
+            #print(c.search('ou=users,dc=colonialheritagefoundation, dc=local', )) This is incomplete but is the start of getting the data from AD
+
+            ## If there is a user found in Active Directory then try to get that user locally, otherwise create one ##
+            if c is not None:
+                try:
+                    user = hmod.User.objects.get(username=un)
+                except hmod.User.DoesNotExist:
+                    user = hmod.User()
+                    user.first_name = un
+                    user.last_name = ''
+                    user.phone = ''
+                    user.username = un
+                    user.set_password(pw)
+
+                    user.save()
+
+                try:
+                    adminGroup = hmod.Group.objects.get(name='Administrator')
+                except hmod.Group.DoesNotExist:
+                    print("Who the heck deleted the administrator group?")
+
+                adminGroup.user_set.add(user)
+
+            this_user = authenticate(username=self.cleaned_data['username'], password=self.cleaned_data['password'])
+
+            if this_user is None:
+                raise forms.ValidationError("Incorrect Username and/or Password")
 
         return self.cleaned_data
 
@@ -103,47 +137,10 @@ def process_request(request):
 
         if form.is_valid():
 
-            ## Grab your username and password just to save typing out cleaned data multiple times ##
-            un=form.cleaned_data['username']
-            pw=form.cleaned_data['password']
+            ## Authenticate again ##
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
 
-            ##  Define the server and then try the connection, catch any exceptions and set c to anything ##
-            s = Server('colonialheritagefoundation.info', port=400, get_info=GET_ALL_INFO)
-            try:
-                c = Connection(s, auto_bind=True, client_strategy=STRATEGY_SYNC, user=un+'@colonialheritagefoundation.local', password=pw, authentication=AUTH_SIMPLE)
-            except:
-                c = None
-            #print(c.search('ou=users,dc=colonialheritagefoundation, dc=local', ))
-
-            #
-            if c is not None:
-                try:
-                    user = hmod.User.objects.get(username=un)
-                except hmod.User.DoesNotExist:
-                    user = hmod.User()
-                    user.first_name = un
-                    user.last_name = ''
-                    user.phone = ''
-                    user.username = un
-                    user.set_password(pw)
-
-                    user.save()
-
-                try:
-                    adminGroup = hmod.Group.objects.get(name='Administrator')
-                except hmod.Group.DoesNotExist:
-                    print("Who the heck deleted the administrator group?")
-
-                adminGroup.user_set.add(user)
-
-                user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-
-                login(request, user)
-            else:
-                ## Authenticate again ##
-                user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-
-                login(request, user)
+            login(request, user)
 
             ## REDIRECT TO PAGE IF USER WAS ON THEIR WAY SOMEWHERE ##
             if request.GET.get('next') is not None:

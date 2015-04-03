@@ -23,6 +23,8 @@ from django.contrib.auth import authenticate, login, logout
 import datetime
 from datetime import timedelta
 import requests
+from django.core.mail import send_mail
+import smtplib
 
 templater = get_renderer('account')
 
@@ -403,6 +405,9 @@ def confirmation(request):
     transaction.confirmation_id = request.session['confirmation']
     transaction.save()
 
+    rentals = []
+    products = []
+
     # Grab the items from the shopping cart:
     for pid in request.session['cart']:
 
@@ -429,6 +434,8 @@ def confirmation(request):
 
             saleitem.save()
 
+            products.append(saleitem)
+
         else:
             inv.quantity_on_hand -= 1
             inv.times_rented += 1
@@ -444,10 +451,20 @@ def confirmation(request):
 
             rentalitem.save()
 
+            rentals.append(rentalitem)
+
         inv.save()
 
     ##ADD A LINE ITEM SHOWING AMOUNT PAID TO TRANSACTION
+    params['rentals'] = rentals
+    params['products'] = products
 
     request.session['cart'] = {}
+
+    subject = "Receipt for your purchase"
+
+    body = templater.render(request, 'receipt.html', params)
+
+    send_mail(subject, body, 'derik.hasvold.backup@gmail.com', [request.user.email], html_message = body, fail_silently = False)
 
     return templater.render_to_response(request, 'confirmation.html', params)
