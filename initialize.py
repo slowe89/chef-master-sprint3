@@ -134,7 +134,7 @@ address2.save()
 # Add a couple of guests
 for data in [
     {'first_name':'Joseph', 'last_name':'Townson', 'email':'easybuttonsales@gmail.com', 'address':address, 'phone':'7134088245', 'security_question':'What is your name?', 'security_answer':'Joseph', 'username':'jobro1', },
-    {'first_name':'Sarah', 'last_name':'Townson', 'email':'fake@fake.com', 'address':address, 'phone':'7134088245', 'security_question':'What is your name?', 'security_answer':'Joseph', 'username':'sarahbro1', }
+    {'first_name':'Sarah', 'last_name':'Townson', 'email':'spencer@colonialheritage.info', 'address':address, 'phone':'7134088245', 'security_question':'What is your name?', 'security_answer':'Joseph', 'username':'sarahbro1', }
 ]:
 
     user = mod.User()
